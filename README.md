@@ -1,44 +1,29 @@
-# .
+# Projeto PC Lúdico - Reconhecimento de Padrões 🧠
 
-This template should help get you started developing with Vue 3 in Vite.
+~~~
+"Trabalhando o Pensamento Computacional de forma lúdica"
+~~~
 
-## Recommended IDE Setup
+**O que é Pensamento Computacional?**
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+O Pensamento Computacional é um termo utilizado para a habilidade de reformular um problema aparentemente difíci em um que sabemos como resolver, separando-o em partes. Essa habilidade, diferente do que muitos pensam, não é só utilizada por quem trabalha na área de tecnologia. Profissionais como engenheiros, biólogos, até músicos, utilizam o tempo todo a prática de separar um grande problema em partes menores.
 
-## Recommended Browser Setup
+**Pilares**
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+O Pensamento Computacional é composto por 4 pilares:
 
-## Customize configuration
+- **Decomposição:** consiste em quebrar um problema em partes menores e mais gerenciáveis, facilitando a compreensão e resolução.
+- **Reconhecimento de padrões (pilar trabalhado):** Identificar semelhanças, tendências ou repetições dentro de problemas, ajudando a aplicar soluções já testadas anteriormente.
+- **Abstração:** Focar apenas nos detalhes essenciais para resolver o problema, filtrando e descartando informações irrelevantes ou desnecessárias.
+- **Algoritmos:** Desenvolver um passo a passo, uma sequência lógica de instruções ou regras para solucionar o problema definido.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+**Reconhecimento de padrões**
 
-## Project Setup
+O reconhecimento de padrões consiste na capacidade cognitiva e computacional para identificar regularidades, repetições e estruturas de dados, imagens, sons ou comportamentos. Esse pilar é essencial para a aprendizagem e intuição. Esse processo permite classificar informaçõe, fazer previsões e otimizar a resolução de problemas.
 
-```sh
-npm install
-```
+Esse pilar contém alguns aspectos principais:
 
-### Compile and Hot-Reload for Development
+- **Definição:** Identificar atributos que ocorrem com repetição, com ou sem intervalos.
+- **Processo Cognitivo:** O cérebro compara situações atuais com experiências passadas, armazenadas na memória de longo prazo, muitas vezes gerando respostas automáticas.
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Com isso, o reconhecimento de padrões é implementado em diversos sistemas e atividades cotidinas, como as inteligencias artificiais, o estudo de comportamentos sociais, o estudo de corportamentos animais, as escalas e padrões musicais, dentre outros.
