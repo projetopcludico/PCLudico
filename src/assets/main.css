@@ -2,7 +2,10 @@
 
 @theme {
     --color-purple: #D599FF;
-    --color-purple-dark: #9370FF
+    --color-purple-dark: #9370FF;
+    --color-red: #FF9E97;
+    --color-orange: #FED69D;
+    --color-blue: #8CD5FF
 }
 
 html {

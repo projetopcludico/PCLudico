@@ -12,15 +12,18 @@ const props = defineProps({
   mode: {
     type: String,
     default: 'purple',
-    validator: (value) => ['purple'].includes(value),
+    validator: (value) => ['purple', 'orange', 'red', 'blue'].includes(value),
   },
 })
 </script>
 <template>
   <button
     :class="[
-      'w-full text-lg font-semibold border-2 px-4 py-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-98 active:scale-97 hover:opacity-80 active:opacity-80',
-      props.mode === 'purple' && 'text-purple bg-purple/20 border dark:bg-purple-dark/20 dark:text-purple-dark',
+      'w-full text-lg font-semibold px-4 py-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-98 active:scale-97 hover:opacity-80 active:opacity-80',
+      props.mode === 'purple' && 'text-white bg-purple dark:bg-purple-dark',
+      props.mode === 'orange' && 'text-white bg-orange',
+      props.mode === 'red' && 'text-white bg-red',
+      props.mode === 'blue' && 'text-white bg-blue',
     ]"
     @click="emits('onClick')"
   >
