@@ -1,5 +1,12 @@
 @import 'tailwindcss';
 
+@theme {
+    --color-purple: #D599FF;
+    --color-purple-dark: #9370FF
+}
+
 html {
     transition: font-size 0.2s ease;
 }
+
+

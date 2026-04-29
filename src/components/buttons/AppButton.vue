@@ -20,7 +20,7 @@ const props = defineProps({
   <button
     :class="[
       'w-full text-lg font-semibold border-2 px-4 py-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-98 active:scale-97 hover:opacity-80 active:opacity-80',
-      props.mode === 'purple' && 'text-[#D599FF] bg-[#D599FF]/20 border dark:bg-[#9370FF]/20 dark:text-[#9370FF]',
+      props.mode === 'purple' && 'text-purple bg-purple/20 border dark:bg-purple-dark/20 dark:text-purple-dark',
     ]"
     @click="emits('onClick')"
   >
