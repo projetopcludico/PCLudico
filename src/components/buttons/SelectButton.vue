@@ -23,7 +23,7 @@ const props = defineProps({
 <template>
   <button
     :class="[
-      'w-full h-full text-xl text-center font-semibold border-2 rounded-lg cursor-pointer transition-all duration-200 py-2',
+      'w-full h-full text-xl text-center font-semibold border-2 rounded-lg cursor-pointer transition-all duration-200 py-2 hover:scale-98 active:scale-98',
       {
         'bg-purple border-purple text-white dark:bg-purple-dark dark:border-purple-dark':
           props.color === 'purple' && props.selected,
