@@ -105,6 +105,7 @@ function goToGame() {
         <span class="mdi mdi-play text-6xl"></span>
       </video>
       <div class="w-full flex flex-col items-center gap-10 bg-gray-100 rounded-4xl dark:bg-slate-900 p-8">
+        <h1 class="text-2xl font-semibold tracking-widest uppercase">Configure sua aventura</h1>
         <ul class="w-full flex flex-col items-center gap-10 md:flex-row md:justify-center md:items-start">
           <li class="w-full flex flex-col gap-4 md:w-1/4 md:" v-for="(config, index) in gameConfig" :key="index">
             <h2 :class="['text-lg font-bold', config.titleClass]">{{ config.title }}</h2>
