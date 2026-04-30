@@ -5,6 +5,7 @@ import CellingWaves from '@/components/decorators/CellingWaves.vue'
 import SelectButton from '@/components/buttons/SelectButton.vue'
 
 import { useRouter } from 'vue-router'
+import AdventureCard from '@/components/cards/AdventureCard.vue'
 const router = useRouter()
 
 const gameMode = ref('campaign')
@@ -88,6 +89,27 @@ const gameConfig = [
   },
 ]
 
+const cards = [
+  {
+    title: 'Ajude a desvendar mistérios antigos!',
+    image: '/imgs/cards/piramide.svg',
+    description:
+      'Preste atenção na sequência e desvende enigmas escondidos nas pirâmides do Egito.',
+  },
+  {
+    title: 'Decodifique e descubra a mensagem!',
+    image: '/imgs/cards/maquina.svg',
+    description:
+      'Ajude cientististas a descobrir a transmissão que uma civilização avançada deixou.',
+  },
+  {
+    title: 'Ajude a compor a música da banda',
+    image: '/imgs/cards/musica.svg',
+    description:
+      'Preste atenção na sequência de instrumentos e animais, e ajude a banda a terminar a música',
+  },
+]
+
 function goToGame() {
   router.push(`/${gameType.value}/${gameDifficulty.value}/`)
 }
@@ -95,7 +117,7 @@ function goToGame() {
 <template>
   <section class="h-full w-full">
     <div
-      class="flex flex-col items-center gap-20 bg-linear-to-b from-white to-blue px-5 py-2 dark:from-slate-900 dark:to-purple-dark md:px-20 md:py-10"
+      class="flex flex-col items-center gap-20 shadow-lg bg-linear-to-b from-white to-blue px-5 py-2 dark:from-slate-900 dark:to-purple-dark md:px-20 md:py-10"
     >
       <video
         controls
@@ -104,10 +126,18 @@ function goToGame() {
       >
         <span class="mdi mdi-play text-6xl"></span>
       </video>
-      <div class="w-full flex flex-col items-center gap-10 bg-gray-100 rounded-4xl dark:bg-slate-900 p-8">
+      <div
+        class="w-full flex flex-col items-center gap-10 bg-gray-100 rounded-4xl dark:bg-slate-900 p-8"
+      >
         <h1 class="text-2xl font-semibold tracking-widest uppercase">Configure sua aventura</h1>
-        <ul class="w-full flex flex-col items-center gap-10 md:flex-row md:justify-center md:items-start">
-          <li class="w-full flex flex-col gap-4 md:w-1/4 md:" v-for="(config, index) in gameConfig" :key="index">
+        <ul
+          class="w-full flex flex-col items-center gap-10 md:flex-row md:justify-center md:items-start"
+        >
+          <li
+            class="w-full flex flex-col gap-4 md:w-1/4 md:"
+            v-for="(config, index) in gameConfig"
+            :key="index"
+          >
             <h2 :class="['text-lg font-bold', config.titleClass]">{{ config.title }}</h2>
             <SelectButton
               v-for="(button, index) in config.buttons"
@@ -121,12 +151,21 @@ function goToGame() {
           </li>
         </ul>
         <div class="w-1/2 flex justify-center">
-          <AppButton text="Jogar" mode="blue" @on-click="goToGame"/>
+          <AppButton text="Jogar" mode="blue" @on-click="goToGame" />
         </div>
       </div>
     </div>
-    <div class="relative">
-      <CellingWaves color-class="fill-blue dark:fill-purple-dark"/>
+    <div class="flex flex-col">
+      <CellingWaves color-class="fill-blue dark:fill-purple-dark" />
+      <div class="flex flex-col gap-10 px-5 py-20 md:py-40 lg:flex-row md:px-20">
+        <AdventureCard
+          v-for="(card, index) in cards"
+          :key="index"
+          :title="card.title"
+          :image="card.image"
+          :description="card.description"
+        />
+      </div>
     </div>
   </section>
 </template>
