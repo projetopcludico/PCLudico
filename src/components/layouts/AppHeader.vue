@@ -2,6 +2,7 @@
 import { useFontSize } from '@/composables/useFontSize'
 import AppButton from '../buttons/AppButton.vue'
 import { onMounted, ref } from 'vue';
+import LogoText from '../decorators/LogoText.vue';
 const { increment, decrement } = useFontSize()
 const isDark = ref(false)
 
@@ -16,12 +17,9 @@ onMounted(() => {
 </script>
 <template>
   <header
-    class="flex justify-between bg-white text-slate-900 dark:bg-slate-900 dark:text-white py-5 px-10"
+    class="flex justify-between bg-white text-slate-900 dark:bg-slate-900 dark:text-white py-5 px-10 md:px-20"
   >
-    <h1 class="flex items-center gap-2">
-      <img class="w-8 h-8" src="/imgs/logo.svg" alt="logo" />
-      <p class="font-semibold font-serif text-xl md:text-2xl">TRAMA</p>
-    </h1>
+    <LogoText text="TRAMA"/>
     <ul class="flex gap-4 items-center">
       <li class="gap-2 hidden md:flex">
         <AppButton text="A+" @on-click="increment" :mode="isDark ? 'purple' : 'blue'"/>
