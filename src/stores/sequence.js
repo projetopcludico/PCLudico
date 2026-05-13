@@ -55,10 +55,10 @@ export const useSequenceStore = defineStore('sequence', () => {
   /**
    * Monta uma sequência de objetos (formas ou sons) com lacunas a descobrir.
    *
-   * @param {number} numberItems   - Quantos itens distintos compõem o padrão
-   * @param {number} timesRepeat   - Tamanho total desejado da sequência
+   * @param {number} numberItems - Quantos itens distintos compõem o padrão
+   * @param {number} timesRepeat - Tamanho total da sequência
    * @param {number} numberDiscover - Quantas posições serão ocultadas
-   * @param {Array}  pool          - Array de objetos disponíveis para sortear
+   * @param {Array}  pool - Array de objetos disponíveis para sortear
    */
   function mountObjectSequence(numberItems, timesRepeat, numberDiscover, pool) {
     const itemSequence = sortObjects(numberItems, pool)
@@ -154,10 +154,10 @@ export const useSequenceStore = defineStore('sequence', () => {
    * Gera uma sequência numérica baseada em operações matemáticas aleatórias.
    * O último número é removido da sequência visível e torna-se a resposta correta.
    *
-   * @param {number} length           - Quantidade de números visíveis
+   * @param {number} length - Quantidade de números visíveis
    * @param {number} amountOperations - Quantidade de operações distintas no padrão
-   * @param {number} maxOperator      - Valor máximo do operando
-   * @param {number} maxStart         - Valor máximo do número inicial
+   * @param {number} maxOperator - Valor máximo do operando
+   * @param {number} maxStart - Valor máximo do número inicial
    */
   function generateNumberSequence(
     length,
@@ -167,15 +167,13 @@ export const useSequenceStore = defineStore('sequence', () => {
     numberDiscover,
   ) {
     if (length <= amountOperations) {
-      console.error(
-        `[sequence] Tamanho da sequência (${length}) deve ser maior que o nº de operações (${amountOperations})`,
-      )
+      console.error(`Tamanho da sequência (${length}) deve ser maior que o nº de operações (${amountOperations})`)
       return
     }
 
     const { exportedOperations, operators } = useSortOperation(amountOperations, maxOperator)
     if (!exportedOperations.length) {
-      console.error('[sequence] Nenhuma operação foi gerada.')
+      console.error('Nenhuma operação foi gerada.')
       return
     }
 
