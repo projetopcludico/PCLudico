@@ -23,7 +23,11 @@ const SOUND_DIFFICULTIES = Object.freeze({
       numberSounds: 3,
       size: 9,
       discover: 1,
-      timeLimit: 90,
+      timeLimit: {
+        one: 90,
+        two: 60,
+        three: 30,
+      },
     }),
   }),
   medium: Object.freeze({
@@ -38,7 +42,11 @@ const SOUND_DIFFICULTIES = Object.freeze({
       numberSounds: 4,
       size: 12,
       discover: 2,
-      timeLimit: 90,
+      timeLimit: {
+        one: 90,
+        two: 60,
+        three: 30,
+      },
     }),
   }),
   hard: Object.freeze({
@@ -53,7 +61,11 @@ const SOUND_DIFFICULTIES = Object.freeze({
       numberSounds: 5,
       size: 15,
       discover: 3,
-      timeLimit: 150,
+      timeLimit: {
+        one: 150,
+        two: 120,
+        three: 90,
+      },
     }),
   }),
 })
@@ -69,7 +81,11 @@ const NUMBER_DIFFICULTIES = Object.freeze({
       maxOperator: 3,
       maxStart: 5,
       numberDiscover: 1,
-      timeLimit: 90,
+      timeLimit: {
+        one: 90,
+        two: 60,
+        three: 30,
+      },
     }),
   }),
   medium: Object.freeze({
@@ -82,7 +98,11 @@ const NUMBER_DIFFICULTIES = Object.freeze({
       maxOperator: 5,
       maxStart: 10,
       numberDiscover: 2,
-      timeLimit: 120,
+      timeLimit: {
+        one: 120,
+        two: 90,
+        three: 60,
+      },
     }),
   }),
   hard: Object.freeze({
@@ -95,7 +115,11 @@ const NUMBER_DIFFICULTIES = Object.freeze({
       maxOperator: 9,
       maxStart: 20,
       numberDiscover: 3,
-      timeLimit: 150,
+      timeLimit: {
+        one: 150,
+        two: 120,
+        three: 90,
+      },
     }),
   }),
 })
@@ -136,19 +160,31 @@ const FORM_DIFFICULTIES = Object.freeze({
   easy: Object.freeze({
     id: 1,
     title: 'Fácil',
-    timeLimit: 90,
+    timeLimit: {
+      one: 90,
+      two: 60,
+      three: 30,
+    },
     params: Object.freeze({ difficulty: 'easy', numberForms: 2, size: 6, discovers: 1 }),
   }),
   medium: Object.freeze({
     id: 2,
     title: 'Médio',
-    timeLimit: 90,
+    timeLimit: {
+      one: 90,
+      two: 60,
+      three: 30,
+    },
     params: Object.freeze({ difficulty: 'medium', numberForms: 2, size: 12, discovers: 2 }),
   }),
   hard: Object.freeze({
     id: 3,
     title: 'Difícil',
-    timeLimit: 90,
+    timeLimit: {
+      one: 90,
+      two: 60,
+      three: 30,
+    },
     params: Object.freeze({ difficulty: 'hard', numberForms: 3, size: 18, discovers: 3 }),
   }),
 })
@@ -156,9 +192,9 @@ const FORM_DIFFICULTIES = Object.freeze({
 const REQUIRED_RESPONSES = Object.freeze({ sounds: 5, numbers: 5, forms: 5 })
 
 const GAME_FLOW = [
-  Object.freeze({ mode: 'forms', route: '/forms/:difficulty' }),
-  Object.freeze({ mode: 'sounds', route: '/sounds/:difficulty' }),
-  Object.freeze({ mode: 'numbers', route: '/numbers/:difficulty' }),
+  Object.freeze({ mode: 'forms', route: '/forms/:difficulty/:phase/' }),
+  Object.freeze({ mode: 'sounds', route: '/sounds/:difficulty/:phase/' }),
+  Object.freeze({ mode: 'numbers', route: '/numbers/:difficulty/:phase/' }),
 ]
 
 export const useApplicationStore = defineStore('applicationStore', () => {
@@ -198,21 +234,30 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     formResponses.value = 0
   }
 
-  function getNextRoute({ mode, difficulty, success }) {
+  function getNextRoute({ mode, difficulty, phase, success }) {
     if (!success) {
       return {
         name: `${mode}-view`,
-        params: { difficulty },
+        params: { difficulty, phase },
       }
     }
 
     const difficultiesOrder = ['easy', 'medium', 'hard']
+    const phaseOrder = ['one', 'two', 'three']
     const currentDifficultyIndex = difficultiesOrder.indexOf(difficulty)
+    const currentPhaseIndex = phaseOrder.indexOf(phase)
+
+    if(currentPhaseIndex < phaseOrder.length - 1) {
+      return {
+        name: `${mode}-view`,
+        params: { difficulty, phase: phaseOrder[currentPhaseIndex + 1]}
+      }
+    }
 
     if (currentDifficultyIndex < difficultiesOrder.length - 1) {
       return {
         name: `${mode}-view`,
-        params: { difficulty: difficultiesOrder[currentDifficultyIndex + 1] },
+        params: { difficulty: difficultiesOrder[currentDifficultyIndex + 1], phase: 'one' },
       }
     }
 
@@ -223,6 +268,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
         name: `${GAME_FLOW[currentModeIndex + 1].mode}-view`,
         params: {
           difficulty: 'easy',
+          phase: 'one'
         },
       }
     }
@@ -230,10 +276,10 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     return { name: 'home-view' }
   }
 
-  function repeatLevelRoute({ mode, difficulty }) {
+  function repeatLevelRoute({ mode, difficulty, phase }) {
     return {
       name: `${mode}-view`,
-      params: { difficulty },
+      params: { difficulty, phase },
     }
   }
 

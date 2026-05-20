@@ -111,7 +111,7 @@ const cards = [
 ]
 
 function goToGame() {
-  router.push(`/game/${gameType.value}/${gameDifficulty.value}/`)
+  router.push(`/game/${gameType.value}/${gameDifficulty.value}/one/`)
 }
 </script>
 <template>

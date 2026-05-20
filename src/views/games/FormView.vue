@@ -28,14 +28,16 @@ function goToFeedBack() {
       required: applicationStore.requiredResponses.forms,
       mode: 'forms',
       difficulty: route.params.difficulty,
+      phase: route.params.phase
     },
   })
 }
 
 function tryAgain() {
   const currentDifficulty = route.params.difficulty
+  const currentPhase = route.params.phase
   const params = applicationStore.formDifficulties[currentDifficulty].params
-  const { timeLimit } = applicationStore.formDifficulties[currentDifficulty]
+  const timeLimit = applicationStore.formDifficulties[currentDifficulty].timeLimit[currentPhase]
 
   sequenceStore.mountObjectSequence(
     params.numberForms,

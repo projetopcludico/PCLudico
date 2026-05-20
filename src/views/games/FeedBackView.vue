@@ -29,6 +29,7 @@ function goNext() {
     const nextRoute = applicationStore.getNextRoute({
         mode: route.params.mode,
         difficulty: route.params.difficulty,
+        phase: route.params.phase,
         success: success.value
     })
 

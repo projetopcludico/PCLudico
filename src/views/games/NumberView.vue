@@ -29,14 +29,17 @@ function goToFeedBack() {
       required: applicationStore.requiredResponses.numbers,
       mode: 'numbers',
       difficulty: route.params.difficulty,
+      phase: route.params.phase
     },
   })
 }
 
 function tryAgain() {
   const currentDifficulty = route.params.difficulty
+  const currentPhase = route.params.phase
   const { length, amountOperations, maxOperator, maxStart, numberDiscover, timeLimit } =
     applicationStore.numberDifficulties[currentDifficulty].params
+  const currentLimit = timeLimit[currentPhase]
 
   sequenceStore.generateNumberSequence(
     length,
@@ -46,7 +49,7 @@ function tryAgain() {
     numberDiscover,
   )
 
-  timeStamp.start(true, timeLimit, goToFeedBack)
+  timeStamp.start(true, currentLimit, goToFeedBack)
 }
 
 onMounted(tryAgain)

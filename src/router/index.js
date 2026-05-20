@@ -19,7 +19,7 @@ const router = createRouter({
       component: () => import('@/layouts/GameLayout.vue'),
       children: [
         {
-          path: 'forms/:difficulty/',
+          path: 'forms/:difficulty/:phase/',
           name: 'forms-view',
           component: () => import('@/views/games/FormView.vue'),
           beforeEnter: (to, from) => {
@@ -31,7 +31,7 @@ const router = createRouter({
           },
         },
         {
-          path: 'numbers/:difficulty/',
+          path: 'numbers/:difficulty/:phase/',
           name: 'numbers-view',
           component: () => import('@/views/games/NumberView.vue'),
           beforeEnter: (to, from) => {
@@ -43,7 +43,7 @@ const router = createRouter({
           },
         },
         {
-          path: 'feedback/:hits/:required/:mode/:difficulty/',
+          path: 'feedback/:hits/:required/:mode/:difficulty/:phase/',
           name: 'feedback-view',
           component: () => import('@/views/games/FeedBackView.vue'),
         },
