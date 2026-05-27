@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import achievementsData from '@/data/achievements.json'
 
 const STORAGE_KEY = 'pcludico-achievements'
