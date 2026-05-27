@@ -1,0 +1,62 @@
+{
+  "forms": {
+    "easy": {
+      "name": "Pirâmides",
+      "description": "As pirâmides eram enormes construções feitas pelos antigos egípcios para servirem como túmulos dos faraós. Elas foram construídas com milhares de blocos de pedra e até hoje impressionam arqueólogos e cientistas do mundo inteiro. A mais famosa é a Grande Pirâmide de Gizé, considerada uma das maiores obras da humanidade. Algumas pedras usadas em sua construção pesavam mais do que um carro inteiro, e mesmo depois de mais de 4 mil anos, as pirâmides continuam de pé no meio do deserto.",
+      "image": "",
+      "unlocked": false
+    },
+    "medium": {
+      "name": "Esfinge",
+      "description": "A Esfinge é uma gigantesca estátua do Egito Antigo com corpo de leão e cabeça humana. Ela foi construída para simbolizar força, inteligência e proteção. A mais famosa delas fica perto das pirâmides de Gizé e observa o deserto há milhares de anos. Muitas pessoas acreditam que a Esfinge guardava os segredos dos faraós e das pirâmides, tornando-se um dos monumentos mais misteriosos do mundo.",
+      "image": "",
+      "unlocked": false
+    },
+    "hard": {
+      "name": "Faraó",
+      "description": "O faraó era o rei e governante do Egito Antigo. Ele comandava cidades, exércitos e acreditava ser escolhido pelos deuses para liderar o povo egípcio. Muitos faraós usavam coroas douradas, joias e roupas luxuosas para mostrar seu poder. Quando morriam, eram enterrados em tumbas cheias de tesouros e objetos preciosos, pois os egípcios acreditavam que eles continuariam vivendo em outra vida após a morte.",
+      "image": "",
+      "unlocked": false
+    }
+    },
+  "sounds": {
+    "easy": {
+      "name": "Animais “Cantores”",
+      "description": "Os animais conseguem produzir sons muito diferentes uns dos outros. Alguns cantam, outros fazem chamados altos, e alguns conseguem imitar sons que escutam ao redor. Os pássaros, por exemplo, usam o canto para se comunicar, enquanto os sapos fazem sons para chamar atenção durante a noite. Em muitas fazendas e desenhos animados, os sons dos animais são usados para criar músicas divertidas e cheias de ritmo.",
+      "image": "",
+      "unlocked": false
+    },
+    "medium": {
+      "name": "Instrumentos Musicais",
+      "description": "Os instrumentos musicais existem há milhares de anos e são usados para criar ritmos, melodias e emoções. Alguns funcionam com cordas, como o violino, outros usam sopro, como a flauta, e alguns produzem som quando são batidos, como o tambor. Quando vários instrumentos tocam juntos, eles formam uma orquestra cheia de sons diferentes trabalhando em harmonia.",
+      "image": "",
+      "unlocked": false
+    },
+    "hard": {
+      "name": "Maestro e Orquestra",
+      "description": "O maestro é a pessoa responsável por organizar todos os músicos de uma orquestra. Ele usa movimentos das mãos para indicar o ritmo, o momento de começar e até a intensidade da música. Uma grande orquestra pode ter dezenas de instrumentos tocando ao mesmo tempo, e o maestro ajuda todos a trabalharem juntos para criar apresentações incríveis e cheias de emoção.",
+      "image": "",
+      "unlocked": false
+    }
+  },
+  "numbers": {
+    "easy": {
+      "name": "Código",
+      "description": "Computadores, celulares e videogames usam números para funcionar. Dentro dessas máquinas, informações como imagens, músicas e mensagens são transformadas em códigos numéricos. Mesmo sem perceber, as pessoas usam números digitais o tempo inteiro ao assistir vídeos, jogar ou conversar pela internet. Os números ajudam as máquinas a entender comandos e guardar informações importantes.",
+      "image": "",
+      "unlocked": false
+    },
+    "medium": {
+      "name": "Robôs e Máquinas",
+      "description": "Robôs e máquinas modernas utilizam números para realizar tarefas e tomar decisões. Sensores conseguem medir distância, velocidade e temperatura usando cálculos rápidos feitos por computadores. Em fábricas, hospitais e até em carros modernos, máquinas usam números para funcionar com precisão e ajudar as pessoas em diferentes atividades do dia a dia.",
+      "image": "",
+      "unlocked": false
+    },
+    "hard": {
+      "name": "Satélites e Espaço",
+      "description": "Satélites e naves espaciais dependem de números para navegar pelo espaço e enviar informações para a Terra. Cientistas utilizam cálculos para descobrir trajetórias, medir distâncias e controlar máquinas que viajam milhares de quilômetros longe do planeta. GPS, internet e previsões do tempo também funcionam graças às tecnologias espaciais movidas por códigos e operações matemáticas.",
+      "image": "",
+      "unlocked": false
+    }
+}
+}
