@@ -167,7 +167,8 @@ function goToGame() {
         />
       </div>
     </div>
-    <div>
+    <div class="flex flex-col items-center px-5 md:px-20">
+      <h1 class="text-2xl font-semibold tracking-widest uppercase">complete todas as conquistas</h1>
       
     </div>
   </section>

@@ -3,6 +3,37 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: none;
+    border-radius: 9999px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: #000000;
+    border-radius: 9999px;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ffffff;
+  }
+}
+
 @keyframes highlight {
  0% {
     transform: scale(1);
@@ -36,12 +67,17 @@
     --color-blue: #8CD5FF;
     --animate-highlight: highlight 1s ease-in-out infinite;
     --animate-shake: shake 1s ease infinite;
+    --color-egypt: #FFEF8E;
 }
 
 
 html {
     transition: font-size 0.2s ease;
     font-family: 'Inter', sans-serif;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 

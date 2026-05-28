@@ -284,12 +284,10 @@ export const useApplicationStore = defineStore('applicationStore', () => {
   }
 
   return {
-    // Estado
     soundResponses,
     numberResponses,
     formResponses,
 
-    // Dados estáticos expostos via readonly (sem custo reativo)
     soundObjects: readonly(SOUND_OBJECTS),
     soundDifficulties: readonly(SOUND_DIFFICULTIES),
     numberDifficulties: readonly(NUMBER_DIFFICULTIES),
@@ -297,7 +295,6 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     formDifficulties: readonly(FORM_DIFFICULTIES),
     requiredResponses: readonly(REQUIRED_RESPONSES),
 
-    // Getters
     soundProgress,
     numberProgress,
     formProgress,
@@ -305,7 +302,6 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     isNumberGoalReached,
     isFormGoalReached,
 
-    // Actions
     incrementSoundResponses,
     incrementNumberResponses,
     incrementFormResponses,

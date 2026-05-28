@@ -22,16 +22,29 @@ const difficulty = computed(() => {
 })
 
 function goToFeedBack() {
-  router.push({
-    name: 'feedback-view',
-    params: {
-      hits: applicationStore.numberResponses,
-      required: applicationStore.requiredResponses.numbers,
-      mode: 'numbers',
-      difficulty: route.params.difficulty,
-      phase: route.params.phase
-    },
-  })
+  if (
+    route.params.phase === 'three' &&
+    applicationStore.numberResponses >= applicationStore.requiredResponses.numbers
+  ) {
+    router.push({
+      name: 'unlock-view',
+      params: {
+        mode: 'numbers',
+        difficulty: route.params.difficulty,
+      },
+    })
+  } else {
+    router.push({
+      name: 'feedback-view',
+      params: {
+        hits: applicationStore.numberResponses,
+        required: applicationStore.requiredResponses.numbers,
+        mode: 'numbers',
+        difficulty: route.params.difficulty,
+        phase: route.params.phase,
+      },
+    })
+  }
 }
 
 function tryAgain() {

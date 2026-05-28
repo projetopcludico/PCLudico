@@ -1,62 +1,104 @@
 {
   "forms": {
     "easy": {
-      "name": "Pirâmides",
-      "description": "As pirâmides eram enormes construções feitas pelos antigos egípcios para servirem como túmulos dos faraós. Elas foram construídas com milhares de blocos de pedra e até hoje impressionam arqueólogos e cientistas do mundo inteiro. A mais famosa é a Grande Pirâmide de Gizé, considerada uma das maiores obras da humanidade. Algumas pedras usadas em sua construção pesavam mais do que um carro inteiro, e mesmo depois de mais de 4 mil anos, as pirâmides continuam de pé no meio do deserto.",
+      "name": "Grande Pirâmide de Gizé",
+      "type": "egypt",
+      "paragraphs": [
+        "De todas as maravilhas da Antiguidade, a Grande Pirâmide de Gizé, localizada no Egito, é a única que pode ainda ser contemplada pelos turistas da atualidade. Sendo prova da veneração que os egípcios mantinham pelo faraó, esse monumento questiona muitos dos preconceitos que costumam ligar o Mundo Antigo às ideias de “simplicidade” e “incipiência”. Construído por volta de 2550 a.C., o suntuoso monumento de 137 metros de altura contou com o trabalho de 100 mil homens ao longo de 20 anos.",
+        "A Grande Pirâmide, na verdade, compõe um conjunto de construções que nomeiam as chamadas Pirâmides de Gizé. Sendo somente ela reconhecida como uma maravilha, foi uma obra encomendada pelo faraó Quéops, que pretendeu utilizar aquele grandioso projeto para abrigar o seu sarcófago e todas as outras preciosidades que deveria carregar em sua outra existência. Até a construção da torre Eiffel, no século XIX, a pirâmide desse faraó deteve o posto de mais alta construção do mundo.",
+        "Um dos mistérios ainda não completamente resolvidos sobre a pirâmide de Gizé diz respeito à sua própria construção. Como os egípcios levantavam aqueles pesados blocos de pedra que, em média, pesavam cerca de três toneladas? Para responder essa questão, os cientistas trabalham com duas teorias. A primeira sugere que cada pedra era deslocada com o uso de embarcações ao longo do rio Nilo. Outra teoria cogita que os blocos tivessem sido construídos pelos próprios egípcios com o uso de um tipo de cimento.",
+        "Para que o encaixe das pedras fosse executado, acredita-se em três possibilidades que explicam o manejo das pedras na construção. Uma primeira teoria diz que os blocos eram arrastados por meio de uma rampa próxima à base da pirâmide. Outra explicação trabalha com a hipótese de que as paredes externas da pirâmide possuíssem rampas que levavam os blocos às partes mais altas. Recentemente, o arquiteto Jean-Paul Houdini cogitou que os blocos mais elevados tivessem sido carregados com rampas internas.",
+        "O conhecimento sobre a estrutura interna da Grande Pirâmide ainda atordoa vários pesquisadores e egiptólogos fascinados pelo objeto. Até hoje, foram descobertas apenas três câmaras no interior da construção: a Câmara Real, que abrigava os restos do faraó; a Câmara Secreta; e a Câmara da Rainha. Para descobrir outros compartimentos na pirâmide, os cientistas teriam que ser obrigados a utilizar explosivos que poderiam comprometer a estrutura da mesma.",
+        "Entre outras peculiaridades, podemos ainda citar que a Grande Pirâmide de Gizé era originalmente toda revestida com pedra calcária polida. Esse acabamento deu um “efeito visual” para a construção do faraó Quéops: a pirâmide brilhava quando exposta ao sol. Infelizmente, boa parte do revestimento brilhante foi roubado há mais de 600 anos. Além disso, os construtores criaram várias câmaras e corredores inúteis para dificultar um possível saque dos bens do faraó.",
+        "Para garantir que todos os caprichos do faraó fossem devidamente cumpridos durante a execução do projeto, existia um corpo de funcionários designado para cuidar dos recursos e trabalhadores ligados à tumba. Segundo alguns historiadores, o processo de construção da pirâmide não só reafirmava a supremacia político-religiosa do faraó, mas também servia para mobilizar diversos indivíduos que moravam em diferentes regiões do Egito."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     },
     "medium": {
       "name": "Esfinge",
-      "description": "A Esfinge é uma gigantesca estátua do Egito Antigo com corpo de leão e cabeça humana. Ela foi construída para simbolizar força, inteligência e proteção. A mais famosa delas fica perto das pirâmides de Gizé e observa o deserto há milhares de anos. Muitas pessoas acreditam que a Esfinge guardava os segredos dos faraós e das pirâmides, tornando-se um dos monumentos mais misteriosos do mundo.",
+      "type": "egypt",
+      "paragraphs": [
+        "A Esfinge é uma gigantesca estátua do Egito Antigo com corpo de leão e cabeça humana. Ela foi construída para simbolizar força, inteligência e proteção. A mais famosa delas fica perto das pirâmides de Gizé e observa o deserto há milhares de anos. Muitas pessoas acreditam que a Esfinge guardava os segredos dos faraós e das pirâmides, tornando-se um dos monumentos mais misteriosos do mundo."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     },
     "hard": {
       "name": "Faraó",
-      "description": "O faraó era o rei e governante do Egito Antigo. Ele comandava cidades, exércitos e acreditava ser escolhido pelos deuses para liderar o povo egípcio. Muitos faraós usavam coroas douradas, joias e roupas luxuosas para mostrar seu poder. Quando morriam, eram enterrados em tumbas cheias de tesouros e objetos preciosos, pois os egípcios acreditavam que eles continuariam vivendo em outra vida após a morte.",
+      "type": "egypt",
+      "paragraphs": [
+        "O faraó era o rei e governante do Egito Antigo. Ele comandava cidades, exércitos e acreditava ser escolhido pelos deuses para liderar o povo egípcio. Muitos faraós usavam coroas douradas, joias e roupas luxuosas para mostrar seu poder. Quando morriam, eram enterrados em tumbas cheias de tesouros e objetos preciosos, pois os egípcios acreditavam que eles continuariam vivendo em outra vida após a morte."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     }
-    },
+  },
   "sounds": {
     "easy": {
       "name": "Animais “Cantores”",
-      "description": "Os animais conseguem produzir sons muito diferentes uns dos outros. Alguns cantam, outros fazem chamados altos, e alguns conseguem imitar sons que escutam ao redor. Os pássaros, por exemplo, usam o canto para se comunicar, enquanto os sapos fazem sons para chamar atenção durante a noite. Em muitas fazendas e desenhos animados, os sons dos animais são usados para criar músicas divertidas e cheias de ritmo.",
+      "type": "animals",
+      "paragraphs": [
+        "Os animais conseguem produzir sons muito diferentes uns dos outros. Alguns cantam, outros fazem chamados altos, e alguns conseguem imitar sons que escutam ao redor. Os pássaros, por exemplo, usam o canto para se comunicar, enquanto os sapos fazem sons para chamar atenção durante a noite. Em muitas fazendas e desenhos animados, os sons dos animais são usados para criar músicas divertidas e cheias de ritmo."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     },
     "medium": {
       "name": "Instrumentos Musicais",
-      "description": "Os instrumentos musicais existem há milhares de anos e são usados para criar ritmos, melodias e emoções. Alguns funcionam com cordas, como o violino, outros usam sopro, como a flauta, e alguns produzem som quando são batidos, como o tambor. Quando vários instrumentos tocam juntos, eles formam uma orquestra cheia de sons diferentes trabalhando em harmonia.",
+      "type": "animals",
+      "paragraphs": [
+        "Os instrumentos musicais existem há milhares de anos e são usados para criar ritmos, melodias e emoções. Alguns funcionam com cordas, como o violino, outros usam sopro, como a flauta, e alguns produzem som quando são batidos, como o tambor. Quando vários instrumentos tocam juntos, eles formam uma orquestra cheia de sons diferentes trabalhando em harmonia."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     },
     "hard": {
       "name": "Maestro e Orquestra",
-      "description": "O maestro é a pessoa responsável por organizar todos os músicos de uma orquestra. Ele usa movimentos das mãos para indicar o ritmo, o momento de começar e até a intensidade da música. Uma grande orquestra pode ter dezenas de instrumentos tocando ao mesmo tempo, e o maestro ajuda todos a trabalharem juntos para criar apresentações incríveis e cheias de emoção.",
+      "type": "animals",
+      "paragraphs": [
+        "O maestro é a pessoa responsável por organizar todos os músicos de uma orquestra. Ele usa movimentos das mãos para indicar o ritmo, o momento de começar e até a intensidade da música. Uma grande orquestra pode ter dezenas de instrumentos tocando ao mesmo tempo, e o maestro ajuda todos a trabalharem juntos para criar apresentações incríveis e cheias de emoção."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     }
   },
   "numbers": {
     "easy": {
       "name": "Código",
-      "description": "Computadores, celulares e videogames usam números para funcionar. Dentro dessas máquinas, informações como imagens, músicas e mensagens são transformadas em códigos numéricos. Mesmo sem perceber, as pessoas usam números digitais o tempo inteiro ao assistir vídeos, jogar ou conversar pela internet. Os números ajudam as máquinas a entender comandos e guardar informações importantes.",
+      "type": "futurist",
+      "paragraphs": [
+        "Computadores, celulares e videogames usam números para funcionar. Dentro dessas máquinas, informações como imagens, músicas e mensagens são transformadas em códigos numéricos. Mesmo sem perceber, as pessoas usam números digitais o tempo inteiro ao assistir vídeos, jogar ou conversar pela internet. Os números ajudam as máquinas a entender comandos e guardar informações importantes."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     },
     "medium": {
       "name": "Robôs e Máquinas",
-      "description": "Robôs e máquinas modernas utilizam números para realizar tarefas e tomar decisões. Sensores conseguem medir distância, velocidade e temperatura usando cálculos rápidos feitos por computadores. Em fábricas, hospitais e até em carros modernos, máquinas usam números para funcionar com precisão e ajudar as pessoas em diferentes atividades do dia a dia.",
+      "type": "futurist",
+      "paragraphs": [
+        "Robôs e máquinas modernas utilizam números para realizar tarefas e tomar decisões. Sensores conseguem medir distância, velocidade e temperatura usando cálculos rápidos feitos por computadores. Em fábricas, hospitais e até em carros modernos, máquinas usam números para funcionar com precisão e ajudar as pessoas em diferentes atividades do dia a dia."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     },
     "hard": {
       "name": "Satélites e Espaço",
-      "description": "Satélites e naves espaciais dependem de números para navegar pelo espaço e enviar informações para a Terra. Cientistas utilizam cálculos para descobrir trajetórias, medir distâncias e controlar máquinas que viajam milhares de quilômetros longe do planeta. GPS, internet e previsões do tempo também funcionam graças às tecnologias espaciais movidas por códigos e operações matemáticas.",
+      "type": "futurist",
+      "paragraphs": [
+        "Satélites e naves espaciais dependem de números para navegar pelo espaço e enviar informações para a Terra. Cientistas utilizam cálculos para descobrir trajetórias, medir distâncias e controlar máquinas que viajam milhares de quilômetros longe do planeta. GPS, internet e previsões do tempo também funcionam graças às tecnologias espaciais movidas por códigos e operações matemáticas."
+      ],
       "image": "",
-      "unlocked": false
+      "unlocked": false,
+      "reference": ""
     }
-}
+  }
 }
