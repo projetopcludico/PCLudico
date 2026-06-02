@@ -237,30 +237,25 @@ export const useSequenceStore = defineStore('sequence', () => {
   }
 
   return {
-    // Estado — objetos
     sequence,
     correctResponses,
     responses,
     finalChoices,
     selectedChoice,
 
-    // Estado — números
     difficulty,
     visibleSequence,
     correctNumber,
     numberOptions,
 
-    // Getters
     pendingCount,
     isObjectSequenceComplete,
 
-    // Actions — objetos
     mountObjectSequence,
     selectChoice,
     revealChoice,
     answerObjectSequence,
 
-    // Actions — números
     generateNumberSequence,
   }
 })
