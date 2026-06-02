@@ -78,7 +78,7 @@ const NUMBER_DIFFICULTIES = Object.freeze({
       difficulty: 'easy',
       length: 6,
       amountOperations: 2,
-      maxOperator: 3,
+      maxOperator: 5,
       maxStart: 5,
       numberDiscover: 1,
       timeLimit: {
@@ -96,7 +96,7 @@ const NUMBER_DIFFICULTIES = Object.freeze({
       length: 8,
       amountOperations: 3,
       maxOperator: 5,
-      maxStart: 10,
+      maxStart: 5,
       numberDiscover: 2,
       timeLimit: {
         one: 120,
@@ -112,8 +112,8 @@ const NUMBER_DIFFICULTIES = Object.freeze({
       difficulty: 'hard',
       length: 10,
       amountOperations: 4,
-      maxOperator: 9,
-      maxStart: 20,
+      maxOperator: 5,
+      maxStart: 5,
       numberDiscover: 3,
       timeLimit: {
         one: 150,
@@ -175,7 +175,7 @@ const FORM_DIFFICULTIES = Object.freeze({
       two: 60,
       three: 30,
     },
-    params: Object.freeze({ difficulty: 'medium', numberForms: 2, size: 12, discovers: 2 }),
+    params: Object.freeze({ difficulty: 'medium', numberForms: 3, size: 12, discovers: 2 }),
   }),
   hard: Object.freeze({
     id: 3,
@@ -185,7 +185,7 @@ const FORM_DIFFICULTIES = Object.freeze({
       two: 60,
       three: 30,
     },
-    params: Object.freeze({ difficulty: 'hard', numberForms: 3, size: 18, discovers: 3 }),
+    params: Object.freeze({ difficulty: 'hard', numberForms: 4, size: 18, discovers: 3 }),
   }),
 })
 

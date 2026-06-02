@@ -54,7 +54,7 @@ function tryAgain() {
 
   sequenceStore.mountObjectSequence(
     params.numberForms,
-    18,
+    25,
     params.discovers,
     applicationStore.formSymbols,
   )

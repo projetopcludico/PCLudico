@@ -31,7 +31,7 @@ const buttonStyle = computed(() => {
   <button
     :style="buttonStyle"
     :class="[
-      'w-25 h-25 flex flex-col items-center justify-center rounded-xl border-3 transition-all duration-200 focus:scale-105',
+      'min-w-20 h-25 flex flex-col items-center justify-center rounded-xl border-3 px-2 transition-all duration-200 focus:scale-105',
       selected && 'border-white animate-highlight',
       name === 'discover' && 'cursor-pointer'
     ]"
