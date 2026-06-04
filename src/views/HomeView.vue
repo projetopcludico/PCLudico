@@ -6,7 +6,11 @@ import SelectButton from '@/components/buttons/SelectButton.vue'
 
 import { useRouter } from 'vue-router'
 import AdventureCard from '@/components/cards/AdventureCard.vue'
+import { usePageTransition } from '@/composables/usePageTransition'
 const router = useRouter()
+
+const pageRef = ref(null)
+const { exit } = usePageTransition(pageRef)
 
 const gameMode = ref('campaign')
 const gameDifficulty = ref('easy')
@@ -110,12 +114,13 @@ const cards = [
   },
 ]
 
-function goToGame() {
+async function goToGame() {
+  await exit()
   router.push(`/game/${gameType.value}/${gameDifficulty.value}/one/`)
 }
 </script>
 <template>
-  <section class="h-full w-full">
+  <section ref="pageRef" class="h-full w-full">
     <div
       class="flex flex-col items-center gap-20 shadow-lg bg-linear-to-b from-white to-blue px-5 py-2 dark:from-slate-900 dark:to-purple-dark md:px-20 md:py-10"
     >

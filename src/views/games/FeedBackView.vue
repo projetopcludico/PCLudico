@@ -1,11 +1,20 @@
 <script setup>
 import AppButton from '@/components/buttons/AppButton.vue';
-import { computed } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { usePageTransition } from '@/composables/usePageTransition';
 import { useApplicationStore } from '@/stores/application';
 const route = useRoute();
 const router = useRouter();
 const applicationStore = useApplicationStore();
+
+const pageRef = ref(null)
+const { enter } = usePageTransition(pageRef)
+
+onMounted(async () => {
+  await nextTick()
+  enter(1)
+})
 
 const success = computed(() => parseInt(route.params.hits) >= parseInt(route.params.required));
 
@@ -48,6 +57,7 @@ function repeatLevel() {
 
 <template>
   <div
+    ref="pageRef"
     class="flex flex-col items-center justify-between w-screen h-screen overflow-hidden p-10 text-red-400"
   >
     <section class="flex flex-col items-center gap-5">

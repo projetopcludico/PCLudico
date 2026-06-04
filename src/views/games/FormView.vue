@@ -1,6 +1,6 @@
 <script setup>
 import GameButton from '@/components/buttons/GameButton.vue'
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useApplicationStore } from '@/stores/application'
 import { useSequenceStore } from '@/stores/sequence'
 import { useTimeStamp } from '@/stores/timeStamp'
@@ -9,8 +9,12 @@ const sequenceStore = useSequenceStore()
 const timeStamp = useTimeStamp()
 
 import { useRoute, useRouter } from 'vue-router'
+import { usePageTransition } from '@/composables/usePageTransition'
 const route = useRoute()
 const router = useRouter()
+
+const pageRef = ref(null)
+const { enter } = usePageTransition(pageRef)
 
 const difficulty = computed(() => {
   if (route.params.difficulty === 'easy') return 'Fácil'
@@ -62,7 +66,11 @@ function tryAgain() {
   timeStamp.start(true, timeLimit, goToFeedBack)
 }
 
-onMounted(tryAgain)
+onMounted(async () => {
+  tryAgain()
+  await nextTick()
+  enter(1)
+})
 
 onUnmounted(() => {
   timeStamp.reset()
@@ -72,6 +80,7 @@ onUnmounted(() => {
 
 <template>
   <div
+    ref="pageRef"
     class="flex flex-col gap-20 p-10 min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.65)),url('/imgs/backgrounds/egypt-background.svg')] bg-cover bg-center"
   >
     <section class="flex items-center justify-between text-4xl text-zinc-200">
