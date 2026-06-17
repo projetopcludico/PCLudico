@@ -3,9 +3,9 @@ import { computed, ref } from 'vue'
 import AppButton from '@/components/buttons/AppButton.vue'
 import CellingWaves from '@/components/decorators/CellingWaves.vue'
 import SelectButton from '@/components/buttons/SelectButton.vue'
+import AdventureCard from '@/components/cards/AdventureCard.vue'
 
 import { useRouter } from 'vue-router'
-import AdventureCard from '@/components/cards/AdventureCard.vue'
 import { usePageTransition } from '@/composables/usePageTransition'
 const router = useRouter()
 
@@ -116,7 +116,11 @@ const cards = [
 
 async function goToGame() {
   await exit()
-  router.push(`/game/${gameType.value}/${gameDifficulty.value}/one/`)
+  router.push({
+    name: 'introduction-view',
+    params: { gameType: gameType.value },
+    query: { difficulty: gameDifficulty.value, mode: gameMode.value },
+  })
 }
 </script>
 <template>

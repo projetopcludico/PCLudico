@@ -191,6 +191,36 @@ const FORM_DIFFICULTIES = Object.freeze({
 
 const REQUIRED_RESPONSES = Object.freeze({ sounds: 5, numbers: 5, forms: 5 })
 
+const GAME_STORIES = Object.freeze({
+  forms: Object.freeze({
+    title: 'Mistérios do Egito Antigo',
+    subtitle: 'Desvende os enigmas das pirâmides',
+    paragraphs: Object.freeze([
+      'Há milhares de anos, no coração do deserto egípcio, as grandes pirâmides foram erguidas não apenas como tumbas, mas como guardiãs de um conhecimento sagrado que atravessa os séculos.',
+      'Diz a lenda que os deuses egípcios esconderam mensagens nas formas geométricas que adornam templos e monumentos. Cada símbolo — o abutre, o vaso canopo, o egípcio, a esfinge e o pilo — carrega um fragmento de uma verdade ancestral esperando para ser revelada.',
+      'O faraó precisa de você para decifrar essas formas e restaurar a harmonia entre o mundo dos vivos e o reino dos deuses. Preste atenção nas sequências sagradas e descubra os padrões ocultos antes que o tempo se esgote.',
+    ]),
+  }),
+  numbers: Object.freeze({
+    title: 'O Código da Civilização',
+    subtitle: 'Decodifique a mensagem dos deuses',
+    paragraphs: Object.freeze([
+      'Em uma civilização avançada que existiu muito antes de nós, os números eram considerados a linguagem universal do universo. Para eles, tudo podia ser compreendido através de padrões matemáticos e sequências numéricas.',
+      'Quando essa civilização desapareceu, deixou para trás um legado codificado — transmissões de números que, quando decifradas, revelam conhecimentos extraordinários sobre o cosmos e a própria existência.',
+      'Você foi selecionado para decodificar essas transmissões. Descubra os números que faltam nas sequências e desvende os segredos que podem transformar nossa compreensão do mundo.',
+    ]),
+  }),
+  sounds: Object.freeze({
+    title: 'A Sinfonia Perdida',
+    subtitle: 'Ajude a banda a completar a música',
+    paragraphs: Object.freeze([
+      'No movimentado bairro boêmio da cidade, uma banda de jovens músicos ensaiava sua grande obra — uma sinfonia que misturava sons da natureza com instrumentos modernos. Mas algo misterioso aconteceu: parte da música simplesmente desapareceu.',
+      'Dizem que um espírito musical travesso espalhou os sons perdidos pela vizinhança. Agora, a banda precisa de alguém com ouvidos atentos para reconstruir a melodia e encontrar cada nota desaparecida.',
+      'Ouça com atenção as sequências de instrumentos e sons da natureza. Identifique o som que falta em cada padrão e ajude a banda a terminar sua obra-prima antes do grande festival de música.',
+    ]),
+  }),
+})
+
 const GAME_FLOW = [
   Object.freeze({ mode: 'forms', route: '/forms/:difficulty/:phase/' }),
   Object.freeze({ mode: 'sounds', route: '/sounds/:difficulty/:phase/' }),
@@ -294,6 +324,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     formSymbols: readonly(FORM_SYMBOLS),
     formDifficulties: readonly(FORM_DIFFICULTIES),
     requiredResponses: readonly(REQUIRED_RESPONSES),
+    gameStories: readonly(GAME_STORIES),
 
     soundProgress,
     numberProgress,
