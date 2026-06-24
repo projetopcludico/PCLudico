@@ -8,7 +8,7 @@ import CloudBackground from '@/components/decorators/CloudBackground.vue'
 
 const route = useRoute()
 const router = useRouter()
-const appStore = useApplicationStore()
+const applicationStore = useApplicationStore()
 const { fadeIn, fadeOut } = useTransitionOverlay()
 
 const pageRef = ref(null)
@@ -18,7 +18,7 @@ const textRef = ref(null)
 const buttonRef = ref(null)
 
 const gameType = route.params.gameType
-const story = appStore.gameStories[gameType]
+const story = applicationStore.gameStories[gameType]
 const difficulty = route.query.difficulty || 'easy'
 
 let ctx
