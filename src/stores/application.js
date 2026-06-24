@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 import { ref, computed, readonly } from 'vue'
 
 const SOUND_OBJECTS = Object.freeze([
-  { id: 1, path: '/sounds/grass.mp3', name: 'som de grama', color: 'blue' },
-  { id: 2, path: '/sounds/metal.mp3', name: 'som de metal', color: 'green' },
-  { id: 3, path: '/sounds/plastic.mp3', name: 'som de plástico', color: 'red' },
-  { id: 4, path: '/sounds/water.mp3', name: 'som de água', color: 'gray' },
-  { id: 5, path: '/sounds/wind.mp3', name: 'som de vento', color: 'brown' },
-  { id: 6, path: '/sounds/wood.mp3', name: 'som de madeira', color: 'yellow' },
+  { id: 1, path: '/sounds/grass.mp3', name: 'som de grama' },
+  { id: 2, path: '/sounds/metal.mp3', name: 'som de metal' },
+  { id: 3, path: '/sounds/plastic.mp3', name: 'som de plástico'},
+  { id: 4, path: '/sounds/water.mp3', name: 'som de água'},
+  { id: 5, path: '/sounds/wind.mp3', name: 'som de vento'},
+  { id: 6, path: '/sounds/wood.mp3', name: 'som de madeira'},
 ])
 
 const SOUND_DIFFICULTIES = Object.freeze({

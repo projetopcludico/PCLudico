@@ -1,5 +1,6 @@
 <script setup>
 import GameButton from '@/components/buttons/GameButton.vue'
+import GameHeader from '@/components/layouts/GameHeader.vue'
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePageTransition } from '@/composables/usePageTransition'
@@ -86,11 +87,7 @@ onUnmounted(() => {
     ref="pageRef"
     class="flex flex-col gap-20 p-10 min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.65)),url('/imgs/backgrounds/cyber-background.svg')] bg-cover bg-center"
   >
-    <section class="flex items-center justify-between text-4xl text-zinc-200">
-      <span class="mdi mdi-home cursor-pointer" @click="router.push('/')"></span>
-      <h1 class="bg-black/50 rounded-xl px-6 py-2">Jogo de Números: Nível {{ difficulty }}</h1>
-      <span class="mdi mdi-cog cursor-pointer"></span>
-    </section>
+    <GameHeader :title="`Jogo de Números: Nível ${difficulty}`"/>
     <section class="grid grid-cols-4 gap-20">
       <div class="flex flex-col gap-5 col-span-1 px-5 text-white">
         <h2 class="font-bold">Tempo restante: {{ timeStamp.formattedTime }}</h2>

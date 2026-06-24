@@ -39,8 +39,13 @@ const router = createRouter({
           component: () => import('@/views/games/FormView.vue'),
           beforeEnter: (to, from) => {
             const difficulty = to.params.difficulty
+            const phase = to.params.phase
             if (!['easy', 'medium', 'hard'].includes(difficulty)) {
               console.error(`Parâmetro de dificultade errado, você passou: ${difficulty}`)
+              return '/'
+            }
+            if(!['one', 'two', 'three'].includes(phase)) {
+              console.error(`Parâmetro de fase errado, você passou: ${phase}`)
               return '/'
             }
           },
@@ -51,11 +56,33 @@ const router = createRouter({
           component: () => import('@/views/games/NumberView.vue'),
           beforeEnter: (to, from) => {
             const difficulty = to.params.difficulty
+            const phase = to.params.phase
             if (!['easy', 'medium', 'hard'].includes(difficulty)) {
               console.error(`Parâmetro de dificultade errado, você passou: ${difficulty}`)
               return '/'
             }
+            if(!['one', 'two', 'three'].includes(phase)) {
+              console.error(`Parâmetro de fase errado, você passou: ${phase}`)
+              return '/'
+            }
           },
+        },
+        {
+          path: 'sounds/:difficulty/:phase',
+          name: 'sounds-view',
+          component: () => import('@/views/games/SoundView.vue'),
+          beforeEnter: (to, from) => {
+            const difficulty = to.params.difficulty
+            const phase = to.params.phase
+            if(!['easy', 'medium', 'hard'].includes(difficulty)) {
+              console.error(`Parâmetro de dificuldade errado, você passou: ${difficulty}`)
+              return '/'
+            }
+            if(!['one', 'two', 'three'].includes(phase)) {
+              console.error(`Parâmetro de fase errado, você passou: ${phase}`)
+              return '/'
+            }
+          }
         },
         {
           path: 'feedback/:hits/:required/:mode/:difficulty/:phase/',

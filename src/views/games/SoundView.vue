@@ -1,18 +1,21 @@
 <script setup>
+import AppButton from '@/components/buttons/AppButton.vue'
 import GameButton from '@/components/buttons/GameButton.vue'
 import GameHeader from '@/components/layouts/GameHeader.vue'
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, computed, nextTick, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useApplicationStore } from '@/stores/application'
 import { useSequenceStore } from '@/stores/sequence'
+import { useAudioStore } from '@/stores/sounds'
 import { useTimeStamp } from '@/stores/timeStamp'
-const applicationStore = useApplicationStore()
-const sequenceStore = useSequenceStore()
-const timeStamp = useTimeStamp()
-
-import { useRoute, useRouter } from 'vue-router'
 import { usePageTransition } from '@/composables/usePageTransition'
+
 const route = useRoute()
 const router = useRouter()
+const applicationStore = useApplicationStore()
+const audioStore = useAudioStore()
+const sequenceStore = useSequenceStore()
+const timeStamp = useTimeStamp()
 
 const pageRef = ref(null)
 const { enter } = usePageTransition(pageRef)
@@ -28,12 +31,12 @@ const difficulty = computed(() => {
 function goToFeedBack() {
   if (
     route.params.phase === 'three' &&
-    applicationStore.formResponses >= applicationStore.requiredResponses.forms
+    applicationStore.soundResponses >= applicationStore.requiredResponses.sounds
   ) {
     router.push({
       name: 'unlock-view',
       params: {
-        mode: 'forms',
+        mode: 'sounds',
         difficulty: route.params.difficulty,
       },
     })
@@ -41,9 +44,9 @@ function goToFeedBack() {
     router.push({
       name: 'feedback-view',
       params: {
-        hits: applicationStore.formResponses,
-        required: applicationStore.requiredResponses.forms,
-        mode: 'forms',
+        hits: applicationStore.soundResponses,
+        required: applicationStore.requiredResponses.sounds,
+        mode: 'sounds',
         difficulty: route.params.difficulty,
         phase: route.params.phase,
       },
@@ -51,20 +54,28 @@ function goToFeedBack() {
   }
 }
 
+function click(index, path) {
+  audioStore.playAudio(path)
+  sequenceStore.answerObjectSequence(index, 'sounds', tryAgain)
+}
+
+function select(choice, path) {
+  audioStore.playAudio(path)
+  sequenceStore.selectChoice(choice)
+}
+
 function tryAgain() {
-  const currentDifficulty = route.params.difficulty
-  const currentPhase = route.params.phase
-  const params = applicationStore.formDifficulties[currentDifficulty].params
-  const timeLimit = applicationStore.formDifficulties[currentDifficulty].timeLimit[currentPhase]
+  const { phase, difficulty } = route.params
+  const params = applicationStore.soundDifficulties[difficulty].params
 
   sequenceStore.mountObjectSequence(
-    params.numberForms,
-    25,
-    params.discovers,
-    applicationStore.formSymbols,
+    params.numberSounds,
+    params.size,
+    params.discover,
+    applicationStore.soundObjects,
   )
 
-  timeStamp.start(true, timeLimit, goToFeedBack)
+  timeStamp.start(true, params.timeLimit[phase], goToFeedBack)
 }
 
 onMounted(async () => {
@@ -72,21 +83,16 @@ onMounted(async () => {
   await nextTick()
   enter(1)
 })
-
-onUnmounted(() => {
-  timeStamp.reset()
-  applicationStore.resetFormResponses()
-})
 </script>
-
 <template>
   <div
     ref="pageRef"
-    class="flex flex-col gap-20 p-10 min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.65)),url('/imgs/backgrounds/egypt-background.svg')] bg-cover bg-center"
+    class="flex flex-col gap-20 p-10 min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.65)),url('/imgs/backgrounds/music-background.svg')] bg-cover bg-center"
   >
-    <GameHeader :title="`Jogo de Formas: Nível ${difficulty}`"/>
+    <GameHeader :title="`Jogo de Sons: Nível ${difficulty}`" />
     <section class="grid grid-cols-4 gap-20">
       <div class="flex flex-col gap-5 col-span-1 px-5 text-white">
+        <AppButton text="Repetir sons" @on-click="audioStore.playSequence(sequenceStore.sequence)"/>
         <h2 class="font-bold">Tempo restante: {{ timeStamp.formattedTime }}</h2>
         <p class="text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolore facilis?
@@ -101,34 +107,34 @@ onUnmounted(() => {
         <h2 class="text-white text-2xl font-semibold">Alternativas</h2>
         <div class="flex justify-center gap-5 bg-zinc-400/80 p-5 rounded-3xl">
           <GameButton
-            v-for="(symbol, index) of sequenceStore.finalChoices"
+            v-for="(choice, index) in sequenceStore.finalChoices"
             :key="index"
-            :icon="symbol.icon"
-            :color="symbol.color"
-            :background="symbol.background"
-            @select="sequenceStore.selectChoice(symbol)"
-            :selected="sequenceStore.selectedChoice?.id === parseInt(symbol.id)"
-            class="cursor-pointer"
+            color="#44BBFF"
+            background="#A0DCFF"
+            icon="mdi mdi-music"
+            @select="select(choice, choice.path)"
+            :selected="sequenceStore.selectedChoice?.id === parseInt(choice.id)"
           />
         </div>
         <div class="flex justify-center flex-wrap gap-5">
           <GameButton
-            v-for="(symbol, index) in sequenceStore.sequence"
+            v-for="(sound, index) in sequenceStore.sequence"
             :key="index"
-            :icon="symbol.object.icon"
-            :color="symbol.object.color"
-            :background="symbol.object.background"
-            :name="symbol.object.name"
+            :icon="sound.object.icon"
+            :name="sound.object.name"
+            color="#FF6357"
+            background="#FF9E97"
+            :playing="audioStore.currentIndex === index"
             :class="[
-              sequenceStore.selectedChoice && symbol.object.name === 'discover' && 'animate-shake',
+              sequenceStore.selectedChoice && sound.object.name === 'discover' && 'animate-shake',
             ]"
-            @select="sequenceStore.answerObjectSequence(index, 'forms', tryAgain)"
+            @select="click(index, sound.object.path)"
           />
         </div>
         <div class="text-white text-2xl">
           <p>
-            Acertos: {{ applicationStore.formResponses }}/{{
-              applicationStore.requiredResponses.forms
+            Acertos: {{ applicationStore.soundResponses }}/{{
+              applicationStore.requiredResponses.sounds
             }}
           </p>
         </div>
