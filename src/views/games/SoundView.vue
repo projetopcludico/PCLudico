@@ -2,7 +2,7 @@
 import AppButton from '@/components/buttons/AppButton.vue'
 import GameButton from '@/components/buttons/GameButton.vue'
 import GameHeader from '@/components/layouts/GameHeader.vue'
-import { onMounted, computed, nextTick, ref } from 'vue'
+import { onMounted, computed, nextTick, ref, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useApplicationStore } from '@/stores/application'
 import { useSequenceStore } from '@/stores/sequence'
@@ -83,6 +83,11 @@ onMounted(async () => {
   await nextTick()
   enter(1)
 })
+
+onUnmounted(() => {
+  timeStamp.reset()
+  applicationStore.resetSoundResponses()
+})
 </script>
 <template>
   <div
@@ -120,7 +125,7 @@ onMounted(async () => {
           <GameButton
             v-for="(sound, index) in sequenceStore.sequence"
             :key="index"
-            :icon="sound.object.icon"
+            :icon="sound.object.name === 'discover' ? sound.object.icon : 'mdi mdi-music-note'"
             :name="sound.object.name"
             color="#FF6357"
             background="#FF9E97"
