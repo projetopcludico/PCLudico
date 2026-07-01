@@ -7,16 +7,20 @@ import { usePageTransition } from '@/composables/usePageTransition'
 import { useApplicationStore } from '@/stores/application'
 import { useSequenceStore } from '@/stores/sequence'
 import { useTimeStamp } from '@/stores/timeStamp'
+import { useAudioStore } from '@/stores/sounds'
+import gsap from 'gsap'
 
 const applicationStore = useApplicationStore()
 const sequenceStore = useSequenceStore()
 const timeStamp = useTimeStamp()
+const audioStore = useAudioStore()
 
 const route = useRoute()
 const router = useRouter()
 
 const pageRef = ref(null)
 const { enter } = usePageTransition(pageRef)
+const sequenceRefs = ref([])
 
 const difficulty = computed(() => {
   if (route.params.difficulty === 'easy') return 'Fácil'
@@ -70,8 +74,73 @@ function tryAgain() {
   timeStamp.start(true, currentLimit, goToFeedBack)
 }
 
+function onAnswer(index) {
+  const result = sequenceStore.answerObjectSequence(index, 'numbers', tryAgain)
+  if (result === 'correct') {
+    audioStore.playFeedback('correct')
+    if (sequenceRefs.value[index]) playCorrectFeedback(index)
+  } else if (result === 'wrong') {
+    audioStore.playFeedback('error')
+    playWrongFeedback(index)
+  }
+}
+
+function playCorrectFeedback(index) {
+  const el = sequenceRefs.value[index]
+  if (!el) return
+  gsap.fromTo(
+    el,
+    { boxShadow: '0 0 0 0 rgba(74, 222, 128, 0.4)' },
+    {
+      boxShadow: '0 0 20px 8px rgba(74, 222, 128, 0.3)',
+      scale: 1.12,
+      duration: 0.2,
+      ease: 'power2.out',
+      onComplete: () => {
+        gsap.to(el, {
+          scale: 1,
+          duration: 0.3,
+          ease: 'power2.in',
+          delay: 0.1,
+          clearProps: 'boxShadow',
+        })
+      },
+    },
+  )
+}
+
+function playWrongFeedback(index) {
+  const el = sequenceRefs.value[index]
+  if (!el) return
+  gsap.fromTo(
+    el,
+    { x: 0 },
+    {
+      x: -6,
+      duration: 0.05,
+      ease: 'power2.out',
+      onComplete: () => {
+        gsap.to(el, {
+          x: 6,
+          duration: 0.05,
+          ease: 'power2.inOut',
+          yoyo: true,
+          repeat: 3,
+          clearProps: 'x',
+        })
+      },
+    },
+  )
+}
+
+function handleSelect(choice) {
+  sequenceStore.selectChoice(choice)
+  if (choice.path) audioStore.playAudio(choice.path)
+}
+
 onMounted(async () => {
   tryAgain()
+  audioStore.playBackground('numbers')
   await nextTick()
   enter(1)
 })
@@ -79,6 +148,7 @@ onMounted(async () => {
 onUnmounted(() => {
   timeStamp.reset()
   applicationStore.resetNumberResponses()
+  audioStore.stopBackground()
 })
 </script>
 
@@ -87,7 +157,7 @@ onUnmounted(() => {
     ref="pageRef"
     class="flex flex-col gap-20 p-10 min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.65)),url('/imgs/backgrounds/cyber-background.svg')] bg-cover bg-center"
   >
-    <GameHeader :title="`Jogo de Números: Nível ${difficulty}`"/>
+    <GameHeader :title="`Jogo de Números: Nível ${difficulty}`" />
     <section class="grid grid-cols-4 gap-20">
       <div class="flex flex-col gap-5 col-span-1 px-5 text-white">
         <h2 class="font-bold">Tempo restante: {{ timeStamp.formattedTime }}</h2>
@@ -109,7 +179,7 @@ onUnmounted(() => {
             color="#D5C359"
             background="#FBE97D"
             :number="choice.value"
-            @select="sequenceStore.selectChoice(choice)"
+            @select="handleSelect(choice)"
             :selected="sequenceStore.selectedChoice?.id === parseInt(choice.id)"
           />
         </div>
@@ -117,6 +187,11 @@ onUnmounted(() => {
           <GameButton
             v-for="(number, index) in sequenceStore.sequence"
             :key="index"
+            :ref="
+              (el) => {
+                if (el) sequenceRefs[index] = el.$el || el
+              }
+            "
             :icon="number.object.icon"
             :name="number.object.name"
             :number="number.object.value"
@@ -125,7 +200,7 @@ onUnmounted(() => {
             :class="[
               sequenceStore.selectedChoice && number.object.name === 'discover' && 'animate-shake',
             ]"
-            @select="sequenceStore.answerObjectSequence(index, 'numbers', tryAgain)"
+            @select="onAnswer(index)"
           />
         </div>
         <div class="text-white text-2xl">

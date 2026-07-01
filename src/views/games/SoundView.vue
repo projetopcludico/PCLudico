@@ -9,6 +9,7 @@ import { useSequenceStore } from '@/stores/sequence'
 import { useAudioStore } from '@/stores/sounds'
 import { useTimeStamp } from '@/stores/timeStamp'
 import { usePageTransition } from '@/composables/usePageTransition'
+import gsap from 'gsap'
 
 const route = useRoute()
 const router = useRouter()
@@ -19,6 +20,7 @@ const timeStamp = useTimeStamp()
 
 const pageRef = ref(null)
 const { enter } = usePageTransition(pageRef)
+const sequenceRefs = ref([])
 
 const difficulty = computed(() => {
   if (route.params.difficulty === 'easy') return 'Fácil'
@@ -54,14 +56,71 @@ function goToFeedBack() {
   }
 }
 
-function click(index, path) {
-  audioStore.playAudio(path)
-  sequenceStore.answerObjectSequence(index, 'sounds', tryAgain)
+function onAnswer(index) {
+  const soundObj = sequenceStore.sequence[index]?.object
+  if (soundObj?.path) audioStore.playAudio(soundObj.path)
+
+  const result = sequenceStore.answerObjectSequence(index, 'sounds', tryAgain)
+  if (result === 'correct') {
+    audioStore.playFeedback('correct')
+    if (sequenceRefs.value[index]) playCorrectFeedback(index)
+  } else if (result === 'wrong') {
+    audioStore.playFeedback('error')
+    playWrongFeedback(index)
+  }
 }
 
 function select(choice, path) {
   audioStore.playAudio(path)
   sequenceStore.selectChoice(choice)
+}
+
+function playCorrectFeedback(index) {
+  const el = sequenceRefs.value[index]
+  if (!el) return
+  gsap.fromTo(
+    el,
+    { boxShadow: '0 0 0 0 rgba(74, 222, 128, 0.4)' },
+    {
+      boxShadow: '0 0 20px 8px rgba(74, 222, 128, 0.3)',
+      scale: 1.12,
+      duration: 0.2,
+      ease: 'power2.out',
+      onComplete: () => {
+        gsap.to(el, {
+          scale: 1,
+          duration: 0.3,
+          ease: 'power2.in',
+          delay: 0.1,
+          clearProps: 'boxShadow',
+        })
+      },
+    },
+  )
+}
+
+function playWrongFeedback(index) {
+  const el = sequenceRefs.value[index]
+  if (!el) return
+  gsap.fromTo(
+    el,
+    { x: 0 },
+    {
+      x: -6,
+      duration: 0.05,
+      ease: 'power2.out',
+      onComplete: () => {
+        gsap.to(el, {
+          x: 6,
+          duration: 0.05,
+          ease: 'power2.inOut',
+          yoyo: true,
+          repeat: 3,
+          clearProps: 'x',
+        })
+      },
+    },
+  )
 }
 
 function tryAgain() {
@@ -97,7 +156,10 @@ onUnmounted(() => {
     <GameHeader :title="`Jogo de Sons: Nível ${difficulty}`" />
     <section class="grid grid-cols-4 gap-20">
       <div class="flex flex-col gap-5 col-span-1 px-5 text-white">
-        <AppButton text="Repetir sons" @on-click="audioStore.playSequence(sequenceStore.sequence)"/>
+        <AppButton
+          text="Repetir sons"
+          @on-click="audioStore.playSequence(sequenceStore.sequence)"
+        />
         <h2 class="font-bold">Tempo restante: {{ timeStamp.formattedTime }}</h2>
         <p class="text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolore facilis?
@@ -125,6 +187,11 @@ onUnmounted(() => {
           <GameButton
             v-for="(sound, index) in sequenceStore.sequence"
             :key="index"
+            :ref="
+              (el) => {
+                if (el) sequenceRefs[index] = el.$el || el
+              }
+            "
             :icon="sound.object.name === 'discover' ? sound.object.icon : 'mdi mdi-music-note'"
             :name="sound.object.name"
             color="#FF6357"
@@ -133,7 +200,7 @@ onUnmounted(() => {
             :class="[
               sequenceStore.selectedChoice && sound.object.name === 'discover' && 'animate-shake',
             ]"
-            @select="click(index, sound.object.path)"
+            @select="onAnswer(index)"
           />
         </div>
         <div class="text-white text-2xl">
