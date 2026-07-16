@@ -9,7 +9,7 @@ import { useSequenceStore } from '@/stores/sequence'
 import { useAudioStore } from '@/stores/sounds'
 import { useTimeStamp } from '@/stores/timeStamp'
 import { usePageTransition } from '@/composables/usePageTransition'
-import gsap from 'gsap'
+import { useFeedbackAnimation } from '@/composables/useFeedbackAnimation'
 
 const route = useRoute()
 const router = useRouter()
@@ -21,6 +21,7 @@ const timeStamp = useTimeStamp()
 const pageRef = ref(null)
 const { enter } = usePageTransition(pageRef)
 const sequenceRefs = ref([])
+const { playCorrectFeedback, playWrongFeedback } = useFeedbackAnimation(sequenceRefs)
 
 const difficulty = computed(() => {
   if (route.params.difficulty === 'easy') return 'Fácil'
@@ -60,10 +61,14 @@ function onAnswer(index) {
   const soundObj = sequenceStore.sequence[index]?.object
   if (soundObj?.path) audioStore.playAudio(soundObj.path)
 
-  const result = sequenceStore.answerObjectSequence(index, 'sounds', tryAgain)
-  if (result === 'correct') {
+  const result = sequenceStore.answerObjectSequence(index, 'sounds')
+  if (result === 'correct' || result === 'complete') {
     audioStore.playFeedback('correct')
     if (sequenceRefs.value[index]) playCorrectFeedback(index)
+    if (result === 'complete') {
+      timeStamp.pause()
+      setTimeout(() => tryAgain(), 1500)
+    }
   } else if (result === 'wrong') {
     audioStore.playFeedback('error')
     playWrongFeedback(index)
@@ -73,54 +78,6 @@ function onAnswer(index) {
 function select(choice, path) {
   audioStore.playAudio(path)
   sequenceStore.selectChoice(choice)
-}
-
-function playCorrectFeedback(index) {
-  const el = sequenceRefs.value[index]
-  if (!el) return
-  gsap.fromTo(
-    el,
-    { boxShadow: '0 0 0 0 rgba(74, 222, 128, 0.4)' },
-    {
-      boxShadow: '0 0 20px 8px rgba(74, 222, 128, 0.3)',
-      scale: 1.12,
-      duration: 0.2,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.to(el, {
-          scale: 1,
-          duration: 0.3,
-          ease: 'power2.in',
-          delay: 0.1,
-          clearProps: 'boxShadow',
-        })
-      },
-    },
-  )
-}
-
-function playWrongFeedback(index) {
-  const el = sequenceRefs.value[index]
-  if (!el) return
-  gsap.fromTo(
-    el,
-    { x: 0 },
-    {
-      x: -6,
-      duration: 0.05,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.to(el, {
-          x: 6,
-          duration: 0.05,
-          ease: 'power2.inOut',
-          yoyo: true,
-          repeat: 3,
-          clearProps: 'x',
-        })
-      },
-    },
-  )
 }
 
 function tryAgain() {

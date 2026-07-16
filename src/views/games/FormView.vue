@@ -6,7 +6,7 @@ import { useApplicationStore } from '@/stores/application'
 import { useSequenceStore } from '@/stores/sequence'
 import { useTimeStamp } from '@/stores/timeStamp'
 import { useAudioStore } from '@/stores/sounds'
-import gsap from 'gsap'
+import { useFeedbackAnimation } from '@/composables/useFeedbackAnimation'
 const applicationStore = useApplicationStore()
 const sequenceStore = useSequenceStore()
 const timeStamp = useTimeStamp()
@@ -20,6 +20,7 @@ const router = useRouter()
 const pageRef = ref(null)
 const { enter } = usePageTransition(pageRef)
 const sequenceRefs = ref([])
+const { playCorrectFeedback, playWrongFeedback } = useFeedbackAnimation(sequenceRefs)
 
 const difficulty = computed(() => {
   if (route.params.difficulty === 'easy') return 'Fácil'
@@ -72,62 +73,18 @@ function tryAgain() {
 }
 
 function onAnswer(index) {
-  const result = sequenceStore.answerObjectSequence(index, 'forms', tryAgain)
-  if (result === 'correct') {
+  const result = sequenceStore.answerObjectSequence(index, 'forms')
+  if (result === 'correct' || result === 'complete') {
     audioStore.playFeedback('correct')
     if (sequenceRefs.value[index]) playCorrectFeedback(index)
+    if (result === 'complete') {
+      timeStamp.pause()
+      setTimeout(() => tryAgain(), 1500)
+    }
   } else if (result === 'wrong') {
     audioStore.playFeedback('error')
     playWrongFeedback(index)
   }
-}
-
-function playCorrectFeedback(index) {
-  const el = sequenceRefs.value[index]
-  if (!el) return
-  gsap.fromTo(
-    el,
-    { boxShadow: '0 0 0 0 rgba(74, 222, 128, 0.4)' },
-    {
-      boxShadow: '0 0 20px 8px rgba(74, 222, 128, 0.3)',
-      scale: 1.12,
-      duration: 0.2,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.to(el, {
-          scale: 1,
-          duration: 0.3,
-          ease: 'power2.in',
-          delay: 0.1,
-          clearProps: 'boxShadow',
-        })
-      },
-    },
-  )
-}
-
-function playWrongFeedback(index) {
-  const el = sequenceRefs.value[index]
-  if (!el) return
-  gsap.fromTo(
-    el,
-    { x: 0 },
-    {
-      x: -6,
-      duration: 0.05,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.to(el, {
-          x: 6,
-          duration: 0.05,
-          ease: 'power2.inOut',
-          yoyo: true,
-          repeat: 3,
-          clearProps: 'x',
-        })
-      },
-    },
-  )
 }
 
 function handleSelect(choice) {

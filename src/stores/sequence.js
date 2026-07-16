@@ -113,12 +113,8 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
   }
 
-  function answerObjectSequence(discoverIndex, theme, fallBack) {
+  function answerObjectSequence(discoverIndex, theme) {
     if (selectedChoice.value === null) return 'noop'
-    if (typeof fallBack !== 'function') {
-      console.error('fallBack não é uma função')
-      return 'noop'
-    }
 
     const item = sequence.value[discoverIndex]
     if (!item || item.object.name !== 'discover') return 'noop'
@@ -142,9 +138,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       else if (theme === 'forms') applicationStore.incrementFormResponses()
       else if (theme === 'numbers') applicationStore.incrementNumberResponses()
 
-      if (fallBack) {
-        fallBack()
-      }
+      return 'complete'
     }
 
     return 'correct'
