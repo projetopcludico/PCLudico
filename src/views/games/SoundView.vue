@@ -66,7 +66,6 @@ function onAnswer(index) {
     audioStore.playFeedback('correct')
     if (sequenceRefs.value[index]) playCorrectFeedback(index)
     if (result === 'complete') {
-      timeStamp.pause()
       setTimeout(() => tryAgain(), 1500)
     }
   } else if (result === 'wrong') {
@@ -80,7 +79,7 @@ function select(choice, path) {
   sequenceStore.selectChoice(choice)
 }
 
-function tryAgain() {
+function tryAgain(start = false) {
   const { phase, difficulty } = route.params
   const params = applicationStore.soundDifficulties[difficulty].params
 
@@ -91,11 +90,11 @@ function tryAgain() {
     applicationStore.soundObjects,
   )
 
-  timeStamp.start(true, params.timeLimit[phase], goToFeedBack)
+  if (start) timeStamp.start(true, params.timeLimit[phase], goToFeedBack)
 }
 
 onMounted(async () => {
-  tryAgain()
+  tryAgain(true)
   await nextTick()
   enter(1)
 })

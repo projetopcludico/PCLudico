@@ -75,7 +75,6 @@ function repeatLevel() {
 function playCelebration() {
   const title = titleRef.value
   const card = cardRef.value
-  const buttons = buttonsRef.value
 
   if (title) {
     gsap.from(title, { scale: 0.3, opacity: 0, duration: 0.6, ease: 'back.out(1.7)' })
@@ -90,17 +89,6 @@ function playCelebration() {
       stagger: 0.12,
       ease: 'power2.out',
       delay: 0.3,
-    })
-  }
-
-  if (buttons) {
-    gsap.from(buttons.children, {
-      y: 20,
-      opacity: 0,
-      duration: 0.35,
-      stagger: 0.08,
-      ease: 'power2.out',
-      delay: 0.6,
     })
   }
 
@@ -170,7 +158,7 @@ function playCelebration() {
       <p data-stagger class="text-blue-300">Modo: {{ mode }}</p>
       <p data-stagger class="text-purple-400">Dificuldade: {{ difficulty }}</p>
       <p data-stagger class="text-yellow-300">
-        Desempenho: {{ route.params.hits }}/{{ route.params.required }} padrões completados
+        Desempenho: {{ route.params.hits }}/{{ route.params.required }} padrões completos
       </p>
     </section>
     <section ref="buttonsRef" class="w-1/2 flex gap-5 justify-center">

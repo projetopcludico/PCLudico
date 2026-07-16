@@ -56,7 +56,7 @@ function goToFeedBack() {
   }
 }
 
-function tryAgain() {
+function tryAgain(start = false) {
   const currentDifficulty = route.params.difficulty
   const currentPhase = route.params.phase
   const params = applicationStore.formDifficulties[currentDifficulty].params
@@ -69,7 +69,7 @@ function tryAgain() {
     applicationStore.formSymbols,
   )
 
-  timeStamp.start(true, timeLimit, goToFeedBack)
+  if (start) {timeStamp.start(true, timeLimit, goToFeedBack)}
 }
 
 function onAnswer(index) {
@@ -78,7 +78,6 @@ function onAnswer(index) {
     audioStore.playFeedback('correct')
     if (sequenceRefs.value[index]) playCorrectFeedback(index)
     if (result === 'complete') {
-      timeStamp.pause()
       setTimeout(() => tryAgain(), 1500)
     }
   } else if (result === 'wrong') {
@@ -93,7 +92,7 @@ function handleSelect(choice) {
 }
 
 onMounted(async () => {
-  tryAgain()
+  tryAgain(true)
   audioStore.playBackground('forms')
   await nextTick()
   enter(1)

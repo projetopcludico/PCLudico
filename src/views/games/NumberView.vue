@@ -57,7 +57,7 @@ function goToFeedBack() {
   }
 }
 
-function tryAgain() {
+function tryAgain(start = false) {
   const currentDifficulty = route.params.difficulty
   const currentPhase = route.params.phase
   const { length, amountOperations, maxOperator, maxStart, numberDiscover, timeLimit } =
@@ -72,7 +72,7 @@ function tryAgain() {
     numberDiscover,
   )
 
-  timeStamp.start(true, currentLimit, goToFeedBack)
+  if (start) timeStamp.start(true, currentLimit, goToFeedBack)
 }
 
 function onAnswer(index) {
@@ -81,7 +81,6 @@ function onAnswer(index) {
     audioStore.playFeedback('correct')
     if (sequenceRefs.value[index]) playCorrectFeedback(index)
     if (result === 'complete') {
-      timeStamp.pause()
       setTimeout(() => tryAgain(), 1500)
     }
   } else if (result === 'wrong') {
@@ -96,7 +95,7 @@ function handleSelect(choice) {
 }
 
 onMounted(async () => {
-  tryAgain()
+  tryAgain(true)
   audioStore.playBackground('numbers')
   await nextTick()
   enter(1)

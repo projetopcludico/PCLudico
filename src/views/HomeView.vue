@@ -1,9 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
 import AppButton from '@/components/buttons/AppButton.vue'
-import CellingWaves from '@/components/decorators/CellingWaves.vue'
 import SelectButton from '@/components/buttons/SelectButton.vue'
 import AdventureCard from '@/components/cards/AdventureCard.vue'
+import SimbolsBackground from '@/components/decorators/SimbolsBackground.vue'
 
 import { useRouter } from 'vue-router'
 import { usePageTransition } from '@/composables/usePageTransition'
@@ -125,16 +125,17 @@ async function goToGame() {
 </script>
 <template>
   <section ref="pageRef" class="h-full w-full">
-    <div
-      class="flex flex-col items-center gap-20 shadow-lg bg-linear-to-b from-white to-blue px-5 py-2 dark:from-slate-900 dark:to-purple-dark md:px-20 md:py-10"
-    >
-      <video
-        controls
-        src="/videos/tutorial.mp4"
-        class="flex flex-col justify-center h-full items-center shadow-xl bg-white rounded-4xl dark:bg-slate-900 dark:text-white"
-      >
-        <span class="mdi mdi-play text-6xl"></span>
-      </video>
+    <div class="flex flex-col items-center gap-20 bg-linear-to-b px-5 py-2 md:px-20 md:py-10">
+      <div class="w-screen relative flex justify-center">
+        <SimbolsBackground />
+        <video
+          controls
+          src="/videos/tutorial.mp4"
+          class="relative z-20 flex flex-col justify-center w-2/3 h-full items-center bg-white rounded-4xl dark:bg-slate-900 dark:text-white"
+        >
+          <span class="mdi mdi-play text-6xl"></span>
+        </video>
+      </div>
       <div
         class="w-full flex flex-col items-center gap-10 bg-gray-100 rounded-4xl dark:bg-slate-900 p-8"
       >
@@ -143,7 +144,7 @@ async function goToGame() {
           class="w-full flex flex-col items-center gap-10 md:flex-row md:justify-center md:items-start"
         >
           <li
-            class="w-full flex flex-col gap-4 md:w-1/4 md:"
+            class="w-full flex flex-col gap-4 md:w-1/4 md:h-full"
             v-for="(config, index) in gameConfig"
             :key="index"
           >
@@ -164,8 +165,7 @@ async function goToGame() {
         </div>
       </div>
     </div>
-    <div class="flex flex-col">
-      <CellingWaves color-class="fill-blue dark:fill-purple-dark" />
+    <div class="relative z-10 flex flex-col">
       <div class="flex flex-col gap-10 px-5 py-20 md:py-40 lg:flex-row md:px-20">
         <AdventureCard
           v-for="(card, index) in cards"
@@ -176,9 +176,8 @@ async function goToGame() {
         />
       </div>
     </div>
-    <div class="flex flex-col items-center px-5 md:px-20">
+    <div class="relative z-10 flex flex-col items-center px-5 md:px-20">
       <h1 class="text-2xl font-semibold tracking-widest uppercase">complete todas as conquistas</h1>
-      
     </div>
   </section>
 </template>
