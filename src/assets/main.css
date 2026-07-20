@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@100..900&display=swap');
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -9,20 +10,20 @@
   }
 
   .no-scrollbar {
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
     width: 5px;
     height: 5px;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-track {
     background: none;
     border-radius: 9999px;
   }
-  
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
     cursor: pointer;
     background: #000000;
@@ -35,7 +36,7 @@
 }
 
 @keyframes highlight {
- 0% {
+  0% {
     transform: scale(1);
     box-shadow: 0 0 0 0 rgba(100, 150, 255, 0.4);
   }
@@ -52,32 +53,43 @@
 }
 
 @keyframes shake {
-  0% { transform: rotate(0); }
-  25% { transform: rotate(-5deg); }
-  50% { transform: rotate(5deg); }
-  75% { transform: rotate(-3deg); }
-  100% { transform: rotate(0); }
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
 }
 
 @theme {
-    --color-purple: #D599FF;
-    --color-purple-dark: #9370FF;
-    --color-red: #FF9E97;
-    --color-orange: #FED69D;
-    --color-blue: #8CD5FF;
-    --animate-highlight: highlight 1s ease-in-out infinite;
-    --animate-shake: shake 1s ease infinite;
-    --color-egypt: #FFEF8E;
+  --font-sour-gummy: 'Sour Gummy', cursive;
+  --color-purple: #d599ff;
+  --color-light-purple: #f5ebfc;
+  --color-purple-dark: #9370ff;
+  --color-red: #ff9e97;
+  --color-light-red: #ffe8e6;
+  --color-orange: #fed69d;
+  --color-dark-orange: #f7ae47;
+  --color-blue: #8cd5ff;
+  --animate-highlight: highlight 1s ease-in-out infinite;
+  --animate-shake: shake 1s ease infinite;
+  --color-egypt: #ffef8e;
 }
 
-
 html {
-    transition: font-size 0.2s ease;
-    font-family: 'Inter', sans-serif;
+  transition: font-size 0.2s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 html::-webkit-scrollbar {
   display: none;
 }
-
-
