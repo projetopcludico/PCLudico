@@ -28,6 +28,6 @@ const props = defineProps({
     @click="emits('onClick')"
   >
     <span v-if="props.icon" :class="props.icon"></span>
-    <p v-if="props.text">{{ props.text }}</p>
+    <p v-if="props.text" class="text-2xl font-sour-gummy uppercase">{{ props.text }}</p>
   </button>
 </template>
