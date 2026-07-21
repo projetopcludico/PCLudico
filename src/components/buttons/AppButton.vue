@@ -3,7 +3,7 @@ const emits = defineEmits(['onClick'])
 const props = defineProps({
   text: {
     type: String,
-    required: true,
+    required: false,
   },
   icon: {
     type: String,
@@ -28,6 +28,6 @@ const props = defineProps({
     @click="emits('onClick')"
   >
     <span v-if="props.icon" :class="props.icon"></span>
-    <p>{{ props.text }}</p>
+    <p v-if="props.text">{{ props.text }}</p>
   </button>
 </template>

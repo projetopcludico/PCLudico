@@ -25,7 +25,7 @@ onMounted(async () => {
   enter(1)
 
   if (success.value) {
-    audioStore.playFeedback('success')
+    audioStore.playFeedback('success', 0.2)
     playCelebration()
   }
 })
