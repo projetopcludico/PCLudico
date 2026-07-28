@@ -34,11 +34,11 @@ onMounted(() => {
       />
     </div>
     <div class="flex gap-5">
-      <AppButton text="Voltar" mode="orange" @on-click="router.push('/')" />
+      <AppButton text="Voltar" mode="orange" @click="router.push('/')" />
       <AppButton
         text="Continuar"
         mode="orange"
-        @on-click="
+        @click="
           router.push(
             applicationStore.getNextRoute({
               mode: router.currentRoute.value.params.mode,

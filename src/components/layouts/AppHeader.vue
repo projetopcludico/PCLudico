@@ -31,8 +31,8 @@ onMounted(() => {
     <LogoText text="TRAMA" />
     <ul class="flex gap-4 items-center">
       <li class="gap-2 hidden md:flex">
-        <AppButton text="A+" @on-click="increment" :mode="isDark ? 'purple' : 'blue'" />
-        <AppButton text="A-" @on-click="decrement" :mode="isDark ? 'purple' : 'blue'" />
+        <AppButton text="A+" @click="increment" :mode="isDark ? 'purple' : 'blue'" />
+        <AppButton text="A-" @click="decrement" :mode="isDark ? 'purple' : 'blue'" />
       </li>
       <li>
         <button

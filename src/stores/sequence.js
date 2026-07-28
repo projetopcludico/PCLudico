@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useApplicationStore } from './application'
 import shuffle from '@/utils/shuffle'
-import { useSortOperation, executeOperation } from '@/utils/operation'
+import { sortOperations, executeOperation } from '@/utils/operation'
 import sortObjects from '@/utils/sort'
 import verifyResponse from '@/utils/verifyResponse'
 
@@ -13,27 +13,6 @@ function getRandomIndexes(max, count) {
     .sort((a, b) => a - b)
 }
 
-function buildNumberAlternatives(correct, total = 5) {
-  const alternatives = new Set([correct])
-  let iterations = 0
-  const MAX_ITER = 100
-
-  while (alternatives.size < total && iterations < MAX_ITER) {
-    const offset = Math.floor(Math.random() * 5) - 2
-    const candidate = correct + offset
-    if (candidate > 0) alternatives.add(candidate)
-    iterations++
-  }
-
-  if (iterations >= MAX_ITER) {
-    console.warn('[sequence] buildNumberAlternatives: usando fallback numérico')
-    let fallback = correct + 10
-    while (alternatives.size < total) alternatives.add(fallback++)
-  }
-
-  return shuffle([...alternatives])
-}
-
 export const useSequenceStore = defineStore('sequence', () => {
   const applicationStore = useApplicationStore()
 
@@ -42,11 +21,6 @@ export const useSequenceStore = defineStore('sequence', () => {
   const responses = ref([])
   const finalChoices = ref([])
   const selectedChoice = ref(null)
-
-  const difficulty = ref('')
-  const visibleSequence = ref([])
-  const correctNumber = ref(null)
-  const numberOptions = ref([])
 
   const pendingCount = computed(() => correctResponses.value.filter((id) => id !== null).length)
 
@@ -134,9 +108,9 @@ export const useSequenceStore = defineStore('sequence', () => {
     revealChoice(discoverIndex, selectedChoice.value)
 
     if (isObjectSequenceComplete.value && verifyResponse(responses.value, correctResponses.value)) {
-      if (theme === 'sounds') applicationStore.incrementSoundResponses()
-      else if (theme === 'forms') applicationStore.incrementFormResponses()
-      else if (theme === 'numbers') applicationStore.incrementNumberResponses()
+      if (theme === 'sounds') applicationStore.incrementResponses('sounds')
+      else if (theme === 'forms') applicationStore.incrementResponses('forms')
+      else if (theme === 'numbers') applicationStore.incrementResponses('numbers')
 
       return 'complete'
     }
@@ -165,7 +139,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       return
     }
 
-    const { exportedOperations, operators } = useSortOperation(amountOperations, maxOperator)
+    const { exportedOperations, operators } = sortOperations(amountOperations, maxOperator)
     if (!exportedOperations.length) {
       console.error('Nenhuma operação foi gerada.')
       return
@@ -222,12 +196,6 @@ export const useSequenceStore = defineStore('sequence', () => {
     finalChoices.value = shuffle(choices)
     responses.value = []
     selectedChoice.value = null
-
-    console.log({
-      numberDiscover,
-      discoverCount,
-      randomIndexes,
-    })
   }
 
   return {
@@ -236,11 +204,6 @@ export const useSequenceStore = defineStore('sequence', () => {
     responses,
     finalChoices,
     selectedChoice,
-
-    difficulty,
-    visibleSequence,
-    correctNumber,
-    numberOptions,
 
     pendingCount,
     isObjectSequenceComplete,

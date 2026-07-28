@@ -2,108 +2,41 @@
 import AppButton from '@/components/buttons/AppButton.vue'
 import GameButton from '@/components/buttons/GameButton.vue'
 import GameHeader from '@/components/layouts/GameHeader.vue'
-import { onMounted, computed, nextTick, ref, onUnmounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useApplicationStore } from '@/stores/application'
-import { useSequenceStore } from '@/stores/sequence'
-import { useAudioStore } from '@/stores/sounds'
-import { useTimeStamp } from '@/stores/timeStamp'
-import { usePageTransition } from '@/composables/usePageTransition'
-import { useFeedbackAnimation } from '@/composables/useFeedbackAnimation'
+import { useGameView } from '@/composables/useGameView'
 
-const route = useRoute()
-const router = useRouter()
-const applicationStore = useApplicationStore()
-const audioStore = useAudioStore()
-const sequenceStore = useSequenceStore()
-const timeStamp = useTimeStamp()
+const {
+  pageRef,
+  sequenceRefs,
+  difficulty,
+  timeStamp,
+  audioStore,
+  sequenceStore,
+  applicationStore,
+  handleSelect,
+  onAnswer,
+} = useGameView('sounds', {
+  onTryAgain({ difficulty, phase, goToFeedBack, start }) {
+    const params = applicationStore.soundDifficulties[difficulty].params
 
-const pageRef = ref(null)
-const { enter } = usePageTransition(pageRef)
-const sequenceRefs = ref([])
-const { playCorrectFeedback, playWrongFeedback } = useFeedbackAnimation(sequenceRefs)
+    sequenceStore.mountObjectSequence(
+      params.numberSounds,
+      params.size,
+      params.discover,
+      applicationStore.soundObjects,
+    )
 
-const difficulty = computed(() => {
-  if (route.params.difficulty === 'easy') return 'Fácil'
-  if (route.params.difficulty === 'medium') return 'Médio'
-  if (route.params.difficulty === 'hard') return 'Difícil'
-
-  return ''
-})
-
-function goToFeedBack() {
-  if (
-    route.params.phase === 'three' &&
-    applicationStore.soundResponses >= applicationStore.requiredResponses.sounds
-  ) {
-    router.push({
-      name: 'unlock-view',
-      params: {
-        mode: 'sounds',
-        difficulty: route.params.difficulty,
-      },
-    })
-  } else {
-    router.push({
-      name: 'feedback-view',
-      params: {
-        hits: applicationStore.soundResponses,
-        required: applicationStore.requiredResponses.sounds,
-        mode: 'sounds',
-        difficulty: route.params.difficulty,
-        phase: route.params.phase,
-      },
-    })
-  }
-}
-
-function onAnswer(index) {
-  const soundObj = sequenceStore.sequence[index]?.object
-  if (soundObj?.path) audioStore.playAudio(soundObj.path)
-
-  const result = sequenceStore.answerObjectSequence(index, 'sounds')
-  if (result === 'correct' || result === 'complete') {
-    audioStore.playFeedback('correct')
-    if (sequenceRefs.value[index]) playCorrectFeedback(index)
-    if (result === 'complete') {
-      setTimeout(() => tryAgain(), 1500)
-    }
-  } else if (result === 'wrong') {
-    audioStore.playFeedback('error')
-    playWrongFeedback(index)
-  }
-}
-
-function select(choice, path) {
-  audioStore.playAudio(path)
-  sequenceStore.selectChoice(choice)
-}
-
-function tryAgain(start = false) {
-  const { phase, difficulty } = route.params
-  const params = applicationStore.soundDifficulties[difficulty].params
-
-  sequenceStore.mountObjectSequence(
-    params.numberSounds,
-    params.size,
-    params.discover,
-    applicationStore.soundObjects,
-  )
-
-  if (start) timeStamp.start(true, params.timeLimit[phase], goToFeedBack)
-}
-
-onMounted(async () => {
-  tryAgain(true)
-  await nextTick()
-  enter(1)
-})
-
-onUnmounted(() => {
-  timeStamp.reset()
-  applicationStore.resetSoundResponses()
+    if (start) timeStamp.start(true, params.timeLimit[phase], goToFeedBack)
+  },
+  onBeforeAnswer(index, soundObj) {
+    if (soundObj?.path) audioStore.playAudio(soundObj.path)
+  },
+  onSelect(choice) {
+    audioStore.playAudio(choice.path)
+    sequenceStore.selectChoice(choice)
+  },
 })
 </script>
+
 <template>
   <div
     ref="pageRef"
@@ -114,17 +47,9 @@ onUnmounted(() => {
       <div class="flex flex-col gap-5 col-span-1 px-5 text-white">
         <AppButton
           text="Repetir sons"
-          @on-click="audioStore.playSequence(sequenceStore.sequence)"
+          @click="audioStore.playSequence(sequenceStore.sequence)"
         />
         <h2 class="font-bold">Tempo restante: {{ timeStamp.formattedTime }}</h2>
-        <p class="text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, dolore facilis?
-          Doloremque magnam ex blanditiis minus illo molestias libero accusantium vero eius
-          voluptate. Commodi error in autem delectus asperiores et Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Adipisci aliquid consequatur illo voluptatem praesentium
-          sequi eum qui temporibus velit, doloremque natus delectus ipsum eligendi. Ipsa ratione
-          quis nisi sequi fugiat.
-        </p>
       </div>
       <div class="flex flex-col items-center gap-10 col-span-3">
         <h2 class="text-white text-2xl font-semibold">Alternativas</h2>
@@ -135,8 +60,8 @@ onUnmounted(() => {
             color="#44BBFF"
             background="#A0DCFF"
             icon="mdi mdi-music"
-            @select="select(choice, choice.path)"
             :selected="sequenceStore.selectedChoice?.id === parseInt(choice.id)"
+            @select="handleSelect(choice)"
           />
         </div>
         <div class="flex justify-center flex-wrap gap-5">
@@ -161,7 +86,7 @@ onUnmounted(() => {
         </div>
         <div class="text-white text-2xl">
           <p>
-            Acertos: {{ applicationStore.soundResponses }}/{{
+            Acertos: {{ applicationStore.getResponses('sounds') }}/{{
               applicationStore.requiredResponses.sounds
             }}
           </p>

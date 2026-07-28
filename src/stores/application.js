@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed, readonly } from 'vue'
+import { ref, readonly } from 'vue'
 
 const SOUND_OBJECTS = Object.freeze([
   { id: 1, path: '/sounds/cat.mp3', name: 'som de gato' },
@@ -146,18 +146,18 @@ const FORM_SYMBOLS = Object.freeze([
   {
     id: 3,
     name: 'Egípcio',
-    icon: '/imgs//icons/egipcio.svg',
+    icon: '/imgs/icons/egipcio.svg',
     color: '#AC37FF',
     background: '#D599FF',
   },
   {
     id: 4,
     name: 'Esfinge',
-    icon: '/imgs//icons/esfinge.svg',
+    icon: '/imgs/icons/esfinge.svg',
     color: '#D5C359',
     background: '#FBE97D',
   },
-  { id: 5, name: 'Pilo', icon: '/imgs//icons/pilo.svg', color: '#44BBFF', background: '#A0DCFF' },
+  { id: 5, name: 'Pilo', icon: '/imgs/icons/pilo.svg', color: '#44BBFF', background: '#A0DCFF' },
 ])
 
 const FORM_DIFFICULTIES = Object.freeze({
@@ -232,40 +232,26 @@ const GAME_FLOW = [
 ]
 
 export const useApplicationStore = defineStore('applicationStore', () => {
-  const soundResponses = ref(0)
-  const numberResponses = ref(0)
-  const formResponses = ref(0)
+  const responses = ref({ sounds: 0, numbers: 0, forms: 0 })
 
-  const soundProgress = computed(() => `${soundResponses.value}/${REQUIRED_RESPONSES.sounds}`)
-
-  const numberProgress = computed(() => `${numberResponses.value}/${REQUIRED_RESPONSES.numbers}`)
-
-  const formProgress = computed(() => `${formResponses.value}/${REQUIRED_RESPONSES.forms}`)
-
-  const isSoundGoalReached = computed(() => soundResponses.value >= REQUIRED_RESPONSES.sounds)
-
-  const isNumberGoalReached = computed(() => numberResponses.value >= REQUIRED_RESPONSES.numbers)
-
-  const isFormGoalReached = computed(() => formResponses.value >= REQUIRED_RESPONSES.forms)
-
-  function incrementSoundResponses() {
-    soundResponses.value++
-  }
-  function incrementNumberResponses() {
-    numberResponses.value++
-  }
-  function incrementFormResponses() {
-    formResponses.value++
+  function getResponses(mode) {
+    return responses.value[mode]
   }
 
-  function resetSoundResponses() {
-    soundResponses.value = 0
+  function incrementResponses(mode) {
+    responses.value[mode]++
   }
-  function resetNumberResponses() {
-    numberResponses.value = 0
+
+  function resetResponses(mode) {
+    responses.value[mode] = 0
   }
-  function resetFormResponses() {
-    formResponses.value = 0
+
+  function getProgress(mode) {
+    return `${responses.value[mode]}/${REQUIRED_RESPONSES[mode]}`
+  }
+
+  function isGoalReached(mode) {
+    return responses.value[mode] >= REQUIRED_RESPONSES[mode]
   }
 
   function getNextRoute({ mode, difficulty, phase, success }) {
@@ -318,9 +304,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
   }
 
   return {
-    soundResponses,
-    numberResponses,
-    formResponses,
+    responses,
 
     soundObjects: readonly(SOUND_OBJECTS),
     soundDifficulties: readonly(SOUND_DIFFICULTIES),
@@ -330,19 +314,12 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     requiredResponses: readonly(REQUIRED_RESPONSES),
     gameStories: readonly(GAME_STORIES),
 
-    soundProgress,
-    numberProgress,
-    formProgress,
-    isSoundGoalReached,
-    isNumberGoalReached,
-    isFormGoalReached,
+    getResponses,
+    incrementResponses,
+    resetResponses,
+    getProgress,
+    isGoalReached,
 
-    incrementSoundResponses,
-    incrementNumberResponses,
-    incrementFormResponses,
-    resetSoundResponses,
-    resetNumberResponses,
-    resetFormResponses,
     getNextRoute,
     repeatLevelRoute,
   }

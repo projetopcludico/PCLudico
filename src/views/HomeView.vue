@@ -4,14 +4,14 @@ import AppButton from '@/components/buttons/AppButton.vue'
 import SelectButton from '@/components/buttons/SelectButton.vue'
 import AdventureCard from '@/components/cards/AdventureCard.vue'
 import InstructionCard from '@/components/cards/InstructionCard.vue'
-import SimbolsBackground from '@/components/decorators/SimbolsBackground.vue'
+import SymbolsBackground from '@/components/decorators/SymbolsBackground.vue'
 
 import { useRouter } from 'vue-router'
 import { usePageTransition } from '@/composables/usePageTransition'
 const router = useRouter()
 
 const pageRef = ref(null)
-const { exit } = usePageTransition(pageRef)
+const { exit } = usePageTransition()
 
 const gameMode = ref('campaign')
 const gameDifficulty = ref('easy')
@@ -125,7 +125,7 @@ async function goToGame() {
   <section ref="pageRef" class="h-full w-full">
     <div class="flex flex-col items-center gap-20 bg-linear-to-b px-5 py-2 md:px-20 md:py-10">
       <div class="w-screen relative flex justify-center">
-        <SimbolsBackground />
+        <SymbolsBackground />
         <video
           controls
           src="/videos/tutorial.mp4"
@@ -181,7 +181,7 @@ async function goToGame() {
             </li>
           </ul>
           <div class="w-full px-8">
-            <AppButton text="Iniciar Jogo" mode="blue" @on-click="goToGame" />
+            <AppButton text="Iniciar Jogo" mode="blue" @click="goToGame" />
           </div>
         </div>
       </div>

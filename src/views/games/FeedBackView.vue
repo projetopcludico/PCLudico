@@ -12,7 +12,7 @@ const applicationStore = useApplicationStore()
 const audioStore = useAudioStore()
 
 const pageRef = ref(null)
-const { enter } = usePageTransition(pageRef)
+const { enter } = usePageTransition()
 const particlesRef = ref(null)
 const titleRef = ref(null)
 const cardRef = ref(null)
@@ -162,9 +162,9 @@ function playCelebration() {
       </p>
     </section>
     <section ref="buttonsRef" class="w-1/2 flex gap-5 justify-center">
-      <AppButton text="Início" @on-click="router.push({ name: 'home-view' })" />
-      <AppButton text="Repetir" color="purple" @on-click="repeatLevel" />
-      <AppButton v-if="success" text="Avançar" color="blue" @on-click="goNext" />
+      <AppButton text="Início" @click="router.push({ name: 'home-view' })" />
+      <AppButton text="Repetir" mode="purple" @click="repeatLevel" />
+      <AppButton v-if="success" text="Avançar" mode="blue" @click="goNext" />
     </section>
     <div ref="particlesRef" class="fixed inset-0 pointer-events-none"></div>
   </div>

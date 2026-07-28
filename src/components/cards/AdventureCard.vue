@@ -1,10 +1,19 @@
 <script setup>
 const emit = defineEmits(['click'])
 
-const { title, image, description } = defineProps({
-  title: String,
-  image: String,
-  description: String,
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
 })
 </script>
 

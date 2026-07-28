@@ -1,12 +1,12 @@
 const operations = ['+', '-', '*'];
 
-const opertationMap = {
+const operationMap = {
     '+': (a, b) => a + b,
     '-': (a, b) => a - b,
-    '*': (a, b) => a * b
+    '*': (a, b) => a * b,
 }
 
-export function useSortOperation(amount, maxOperator) {
+export function sortOperations(amount, maxOperator) {
     const exportedOperations = [];
     const operators = [];
     for(let i = 0; i < amount; i++) {
@@ -23,5 +23,5 @@ export function useSortOperation(amount, maxOperator) {
 }
 
 export function executeOperation(operation, a, b) {
-    return opertationMap[operation](a, b);
+    return operationMap[operation](a, b)
 }

@@ -4,7 +4,7 @@ import { useAudioStore } from '@/stores/sounds'
 const router = useRouter()
 const audioStore = useAudioStore()
 
-const emits = defineEmits(['openAcessibility'])
+const emits = defineEmits(['openAccessibility'])
 
 const props = defineProps({
   title: {
@@ -37,7 +37,7 @@ const props = defineProps({
         <li>
           <button
             class="rounded-xl px-2 py-1 cursor-pointer transition-all duration-200 hover:bg-white/10"
-            @click="emits('openAcessibility')"
+            @click="emits('openAccessibility')"
           >
             <span class="mdi mdi-cog"></span>
           </button>

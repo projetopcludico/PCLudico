@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 const BGM_MAP = {
   forms: '/sounds/backgrounds/egypt.mp3',
@@ -7,26 +7,21 @@ const BGM_MAP = {
 }
 
 export const useAudioStore = defineStore('audioStore', () => {
-  const state = reactive({
-    currentSequence: null,
-    sound: new Audio(),
-    bgm: new Audio(),
-    feedback: new Audio(),
-    muted: false,
-  })
-
-  const sound = computed(() => state.sound)
-  const muted = computed(() => state.muted)
+  const sound = ref(new Audio())
+  const bgm = ref(new Audio())
+  const feedback = ref(new Audio())
+  const muted = ref(false)
+  const currentSequence = ref(null)
   const currentIndex = ref(0)
   const bgmVolume = ref(0.08)
 
   const playAudio = (path) => {
-    if (state.currentSequence) {
-      state.currentSequence = null
+    if (currentSequence.value) {
+      currentSequence.value = null
     }
 
-    state.sound.src = path
-    state.sound.play()
+    sound.value.src = path
+    sound.value.play()
   }
 
   const playBackground = (mode) => {
@@ -35,53 +30,53 @@ export const useAudioStore = defineStore('audioStore', () => {
 
     stopBackground()
 
-    state.bgm.src = src
-    state.bgm.loop = true
-    state.bgm.volume = bgmVolume.value
-    state.bgm.play()
+    bgm.value.src = src
+    bgm.value.loop = true
+    bgm.value.volume = bgmVolume.value
+    bgm.value.play()
   }
 
   const stopBackground = () => {
-    state.bgm.pause()
-    state.bgm.src = ''
+    bgm.value.pause()
+    bgm.value.src = ''
   }
 
   const toggleBgmVolume = () => {
     if (muted.value) {
-      state.muted = false
-      state.bgm.volume = bgmVolume.value
+      muted.value = false
+      bgm.value.volume = bgmVolume.value
       return
     }
 
-    state.muted = true
-    state.bgm.volume = 0
+    muted.value = true
+    bgm.value.volume = 0
   }
 
   const playFeedback = (type, volume = 1) => {
-    state.feedback.src = `/sounds/feedbacks/${type}.mp3`
-    state.feedback.volume = volume
-    state.feedback.play()
+    feedback.value.src = `/sounds/feedbacks/${type}.mp3`
+    feedback.value.volume = volume
+    feedback.value.play()
   }
 
   const playSequence = (sequence) => {
-    if (state.currentSequence) state.currentSequence = null
+    if (currentSequence.value) currentSequence.value = null
 
     currentIndex.value = 0
-    state.currentSequence = sequence
+    currentSequence.value = sequence
 
     const playNext = () => {
-      if (currentIndex.value >= state.currentSequence.length) return
+      if (currentIndex.value >= currentSequence.value.length) return
 
-      if (state.currentSequence[currentIndex.value].object.path == '') {
+      if (currentSequence.value[currentIndex.value].object.path == '') {
         currentIndex.value++
         setTimeout(playNext, 1000)
         return
       }
 
-      state.sound.src = state.currentSequence[currentIndex.value].object.path
-      state.sound.play()
+      sound.value.src = currentSequence.value[currentIndex.value].object.path
+      sound.value.play()
 
-      state.sound.onended = () => {
+      sound.value.onended = () => {
         currentIndex.value++
         playNext()
       }

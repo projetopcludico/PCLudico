@@ -1,5 +1,5 @@
 <script setup>
-const emits = defineEmits(['onClick'])
+const emit = defineEmits(['click'])
 const props = defineProps({
   text: {
     type: String,
@@ -25,7 +25,7 @@ const props = defineProps({
       props.mode === 'red' && 'text-white bg-red',
       props.mode === 'blue' && 'text-white bg-blue',
     ]"
-    @click="emits('onClick')"
+    @click="emit('click')"
   >
     <span v-if="props.icon" :class="props.icon"></span>
     <p v-if="props.text" class="text-2xl font-sour-gummy uppercase">{{ props.text }}</p>

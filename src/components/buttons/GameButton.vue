@@ -3,12 +3,30 @@ import { computed, ref, watch, onUnmounted } from 'vue'
 import gsap from 'gsap'
 
 const props = defineProps({
-  name: String,
-  icon: String,
-  svg: Boolean,
-  number: Number,
-  color: String,
-  background: String,
+  name: {
+    type: String,
+    default: '',
+  },
+  icon: {
+    type: String,
+    default: '',
+  },
+  svg: {
+    type: Boolean,
+    default: false,
+  },
+  number: {
+    type: Number,
+    default: undefined,
+  },
+  color: {
+    type: String,
+    default: '',
+  },
+  background: {
+    type: String,
+    default: '',
+  },
   selected: {
     type: Boolean,
     default: false,
@@ -96,5 +114,3 @@ onUnmounted(() => ctx?.revert())
     </div>
   </button>
 </template>
-
-<style scoped></style>
