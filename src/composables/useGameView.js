@@ -26,22 +26,18 @@ export function useGameView(mode, { onTryAgain, onBeforeAnswer, onSelect, onMoun
   function goToFeedBack() {
     const responses = applicationStore.getResponses(mode)
     const required = applicationStore.requiredResponses[mode]
-
+    applicationStore.setHits(responses)
+    applicationStore.setRequired(required)
+    applicationStore.setMode(mode)
+    applicationStore.setDifficulty(route.params.difficulty)
+    applicationStore.setPhase(route.params.phase)
     if (route.params.phase === 'three' && responses >= required) {
       router.push({
         name: 'unlock-view',
-        params: { mode, difficulty: route.params.difficulty },
       })
     } else {
       router.push({
         name: 'feedback-view',
-        params: {
-          hits: responses,
-          required,
-          mode,
-          difficulty: route.params.difficulty,
-          phase: route.params.phase,
-        },
       })
     }
   }

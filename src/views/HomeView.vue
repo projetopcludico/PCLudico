@@ -17,6 +17,22 @@ const gameMode = ref('campaign')
 const gameDifficulty = ref('easy')
 const gameType = ref('forms')
 
+const templates = [
+  { value: 'mdi mdi-music', type: 'icon', color: '#FF9E97' },
+  { value: 'mdi mdi-music-note', type: 'icon', color: '#A0DCFF' },
+  { value: 'mdi mdi-triangle-outline', type: 'icon', color: '#D599FF' },
+  { value: 'mdi mdi-circle-outline', type: 'icon', color: '#FFD393' },
+  { value: 'mdi mdi-circle', type: 'icon', color: '#D599FF' },
+  { value: 'mdi mdi-rectangle-outline', type: 'icon', color: '#D599FF' },
+  { value: 'mdi mdi-rectangle', type: 'icon', color: '#A0DCFF' },
+  { value: 'mdi mdi-square-outline', type: 'icon', color: '#FFBC5C' },
+  { value: '/imgs/icons/canopo.svg', type: 'svg', color: '#A0DCFF' },
+  { value: '/imgs/icons/abutre.svg', type: 'svg', color: '#BFFF95' },
+  { value: '/imgs/icons/egipcio.svg', type: 'svg', color: '#FBF37D' },
+  { value: '/imgs/icons/esfinge.svg', type: 'svg', color: '#FFD393' },
+  { value: '/imgs/icons/pilo.svg', type: 'svg', color: '#D599FF' },
+]
+
 const gameConfig = [
   {
     titleClass: 'text-purple dark:text-purple-dark',
@@ -125,7 +141,7 @@ async function goToGame() {
   <section ref="pageRef" class="h-full w-full">
     <div class="flex flex-col items-center gap-20 bg-linear-to-b px-5 py-2 md:px-20 md:py-10">
       <div class="w-screen relative flex justify-center">
-        <SymbolsBackground />
+        <SymbolsBackground :templates="templates"/>
         <video
           controls
           src="/videos/tutorial.mp4"

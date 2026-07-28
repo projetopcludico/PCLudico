@@ -1,171 +1,156 @@
 <script setup>
 import AppButton from '@/components/buttons/AppButton.vue'
-import { computed, nextTick, onMounted, ref, onUnmounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { usePageTransition } from '@/composables/usePageTransition'
+import SymbolsBackground from '@/components/decorators/SymbolsBackground.vue'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useApplicationStore } from '@/stores/application'
-import { useAudioStore } from '@/stores/sounds'
-import gsap from 'gsap'
-const route = useRoute()
+import { difficultyLabel } from '@/utils/difficultyLabel'
+import { phaseLabel } from '@/utils/phaseLabel'
+
 const router = useRouter()
 const applicationStore = useApplicationStore()
-const audioStore = useAudioStore()
 
-const pageRef = ref(null)
-const { enter } = usePageTransition()
-const particlesRef = ref(null)
-const titleRef = ref(null)
-const cardRef = ref(null)
-const buttonsRef = ref(null)
+const hits = computed(() => Number(applicationStore.gameStatus.hits))
+const required = computed(() => Number(applicationStore.gameStatus.required))
+const mode = computed(() => applicationStore.gameStatus.mode)
+const difficulty = computed(() => applicationStore.gameStatus.difficulty)
+const phase = computed(() => applicationStore.gameStatus.phase)
 
-let particleCtx
-
-onMounted(async () => {
-  await nextTick()
-  enter(1)
-
-  if (success.value) {
-    audioStore.playFeedback('success', 0.2)
-    playCelebration()
+const title = computed(() => {
+  if (hits.value >= required.value) {
+    if (mode.value == 'forms') return 'Parabéns Explorador!'
+    if (mode.value == 'numbers') return 'Parabéns Cientista!'
+    if (mode.value == 'sounds') return 'Parabéns Banda!'
+    return ''
   }
-})
 
-onUnmounted(() => {
-  particleCtx?.revert()
-})
-
-const success = computed(() => parseInt(route.params.hits) >= parseInt(route.params.required))
-
-const mode = computed(() => {
-  if (route.params.mode === 'forms') return 'Formas'
-  if (route.params.mode === 'sounds') return 'Sons'
-  if (route.params.mode === 'numbers') return 'Números'
-
+  if (mode.value == 'forms') return 'Que pena Explorador!'
+  if (mode.value == 'numbers') return 'Que pena Cientista!'
+  if (mode.value == 'sounds') return 'Que pena Banda!'
   return ''
 })
 
-const difficulty = computed(() => {
-  if (route.params.difficulty === 'easy') return 'Fácil'
-  if (route.params.difficulty === 'medium') return 'Médio'
-  if (route.params.difficulty === 'hard') return 'Difícil'
+const subtitle = computed(() => {
+  if (hits.value >= required.value) {
+    if (mode.value == 'forms') return ' Você desvendou o mistério!'
+    if (mode.value == 'numbers') return 'Você resolveu o código!'
+    if (mode.value == 'sounds') return ' Você organizou a sinfonia!'
+    return ''
+  }
 
+  if (mode.value == 'forms') return 'Você não conseguiu desvendar o mistério.'
+  if (mode.value == 'numbers') return 'Você não conseguiu resolver o código.'
+  if (mode.value == 'sounds') return 'Você não conseguiu organizar a sinfonia.'
   return ''
 })
 
-function goNext() {
-  const nextRoute = applicationStore.getNextRoute({
-    mode: route.params.mode,
-    difficulty: route.params.difficulty,
-    phase: route.params.phase,
-    success: success.value,
-  })
+const image = computed(() => {
+  return `/imgs/feedbacks/${mode.value}-feedback.svg`
+})
 
-  router.push(nextRoute)
+const fontColor = computed(() => {
+  if (mode.value == 'forms') return '#976526'
+  if (mode.value == 'numbers') return '#03314F'
+  return '#6A3F3C'
+})
+
+function nextRoute() {
+  router.push(
+    applicationStore.getNextRoute({
+      mode: mode.value,
+      difficulty: difficulty.value,
+      phase: phase.value,
+      success: hits.value >= required.value,
+    }),
+  )
 }
 
 function repeatLevel() {
-  const repeatRoute = applicationStore.repeatLevelRoute({
-    mode: route.params.mode,
-    difficulty: route.params.difficulty,
-  })
-
-  router.push(repeatRoute)
+  router.push(
+    applicationStore.repeatLevelRoute({
+      mode: mode.value,
+      difficulty: difficulty.value,
+      phase: phase.value,
+    }),
+  )
 }
 
-function playCelebration() {
-  const title = titleRef.value
-  const card = cardRef.value
+const backgrounds = {
+  forms:
+    'bg-[radial-gradient(ellipse_at_center,_rgba(255,216,77,0.9)_0%,_rgba(247,178,74,0.45)_45%,_transparent_80%)]',
+  numbers:
+    'bg-[radial-gradient(ellipse_at_center,_rgba(124,203,255,0.9)_0%,_rgba(79,174,245,0.45)_45%,_transparent_80%)]',
+  sounds:
+    'bg-[radial-gradient(ellipse_at_center,_rgba(255,177,177,0.9)_0%,_rgba(255,142,142,0.45)_45%,_transparent_80%)]',
+}
 
-  if (title) {
-    gsap.from(title, { scale: 0.3, opacity: 0, duration: 0.6, ease: 'back.out(1.7)' })
-  }
-
-  if (card) {
-    const items = card.querySelectorAll('[data-stagger]')
-    gsap.from(items, {
-      y: 30,
-      opacity: 0,
-      duration: 0.4,
-      stagger: 0.12,
-      ease: 'power2.out',
-      delay: 0.3,
-    })
-  }
-
-  particleCtx = gsap.context(() => {
-    const colors = ['#FF6357', '#FF9E97', '#D599FF', '#44BBFF', '#FBE97D', '#4ade80']
-    const container = particlesRef.value
-    if (!container) return
-
-    for (let i = 0; i < 40; i++) {
-      const dot = document.createElement('div')
-      const color = colors[Math.floor(Math.random() * colors.length)]
-      const size = 4 + Math.random() * 10
-      const startX = Math.random() * innerWidth
-      const startY = innerHeight * (0.4 + Math.random() * 0.2)
-      const endX = (Math.random() - 0.5) * innerWidth * 1.2
-      const endY = -(200 + Math.random() * 500)
-
-      Object.assign(dot.style, {
-        position: 'fixed',
-        left: `${startX}px`,
-        top: `${startY}px`,
-        width: `${size}px`,
-        height: `${size}px`,
-        backgroundColor: color,
-        borderRadius: '50%',
-        pointerEvents: 'none',
-        zIndex: '9999',
-        opacity: '0',
-      })
-
-      container.appendChild(dot)
-
-      gsap.to(dot, {
-        x: endX,
-        y: endY,
-        opacity: 1,
-        scale: 0.2 + Math.random() * 0.8,
-        rotation: Math.random() * 720,
-        duration: 1.2 + Math.random() * 1,
-        ease: 'power2.out',
-        delay: Math.random() * 0.5,
-        onComplete: () => {
-          gsap.to(dot, { opacity: 0, duration: 0.4, delay: 0.5, onComplete: () => dot.remove() })
-        },
-      })
-    }
-  }, particlesRef)
+const templates = {
+  forms: [
+    { value: '/imgs/icons/canopo.svg', type: 'svg', color: '#FFB54A' },
+    { value: '/imgs/icons/abutre.svg', type: 'svg', color: '#FFB54A' },
+    { value: '/imgs/icons/egipcio.svg', type: 'svg', color: '#FFB54A' },
+    { value: '/imgs/icons/esfinge.svg', type: 'svg', color: '#FFB54A' },
+    { value: '/imgs/icons/pilo.svg', type: 'svg', color: '#FFB54A' },
+  ],
+  numbers: [
+    { value: '1', type: 'number', color: '#39B7FF' },
+    { value: '2', type: 'number', color: '#39B7FF' },
+    { value: '3', type: 'number', color: '#39B7FF' },
+    { value: '4', type: 'number', color: '#39B7FF' },
+    { value: '5', type: 'number', color: '#39B7FF' },
+    { value: '6', type: 'number', color: '#39B7FF' },
+    { value: '7', type: 'number', color: '#39B7FF' },
+    { value: '8', type: 'number', color: '#39B7FF' },
+    { value: '9', type: 'number', color: '#39B7FF' },
+    { value: '10', type: 'number', color: '#39B7FF' },
+  ],
+  sounds: [
+    { value: 'mdi mdi-music', type: 'icon', color: '#FF9E97' },
+    { value: 'mdi mdi-music-note', type: 'icon', color: '#FF9E97' },
+  ]
 }
 </script>
 
 <template>
   <div
-    ref="pageRef"
-    :class="[
-      'flex flex-col items-center justify-between w-screen h-screen overflow-hidden p-10',
-      success ? 'text-green-400' : 'text-red-400',
-    ]"
+    class="relative min-h-screen w-screen flex flex-col items-center justify-center gap-5"
+    :style="{
+      color: fontColor,
+    }"
   >
-    <section ref="titleRef" class="flex flex-col items-center gap-5">
-      <h1 v-if="success" class="text-5xl font-bold">Parabéns</h1>
-      <h1 v-else class="text-5xl font-bold">Quase lá!</h1>
-      <p v-if="success" class="text-3xl">Você conseguiu!</p>
-      <p v-else class="text-3xl">Você pode melhorar!</p>
-      <img src="/imgs/feedback.svg" alt="feedback-image" class="w-48" />
-    </section>
-    <section ref="cardRef" class="w-1/2 text-2xl border-2 rounded-xl p-10 border-inherit">
-      <p data-stagger class="text-blue-300">Modo: {{ mode }}</p>
-      <p data-stagger class="text-purple-400">Dificuldade: {{ difficulty }}</p>
-      <p data-stagger class="text-yellow-300">
-        Desempenho: {{ route.params.hits }}/{{ route.params.required }} padrões completos
-      </p>
-    </section>
-    <section ref="buttonsRef" class="w-1/2 flex gap-5 justify-center">
-      <AppButton text="Início" @click="router.push({ name: 'home-view' })" />
-      <AppButton text="Repetir" mode="purple" @click="repeatLevel" />
-      <AppButton v-if="success" text="Avançar" mode="blue" @click="goNext" />
-    </section>
-    <div ref="particlesRef" class="fixed inset-0 pointer-events-none"></div>
+    <SymbolsBackground :templates="templates[mode]" :with-numbers="false" />
+    <div :class="['absolute inset-0 -z-10', backgrounds[mode]]"></div>
+    <h1 class="text-5xl font-sour-gummy font-bold z-10">{{ title }}</h1>
+    <img :src="image" class="z-10"/>
+    <p class="font-bold italic text-2xl z-10">{{ subtitle }}</p>
+    <p v-if="hits >= required" class="font-bold italic z-10">
+      {{ difficultyLabel(difficulty) }} | Fase {{ phaseLabel(phase) }} - Concluído
+    </p>
+    <div class="w-full flex flex-col gap-2 items-center z-10">
+      <p>Continue jogando:</p>
+      <ul class="w-full flex justify-center gap-5">
+        <li>
+          <AppButton
+            text="Voltar"
+            :mode="mode == 'forms' ? 'orange' : mode == 'numbers' ? 'blue' : 'red'"
+            @click="router.push('/')"
+          />
+        </li>
+        <li>
+          <AppButton
+            text="Tentar novamente"
+            :mode="mode == 'forms' ? 'orange' : mode == 'numbers' ? 'blue' : 'red'"
+            @click="repeatLevel"
+          />
+        </li>
+        <li v-if="hits >= required">
+          <AppButton
+            text="Avançar"
+            :mode="mode == 'forms' ? 'orange' : mode == 'numbers' ? 'blue' : 'red'"
+            @click="nextRoute"
+          />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>

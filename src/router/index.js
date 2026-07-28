@@ -67,7 +67,7 @@ const router = createRouter({
           beforeEnter: validateGameParams,
         },
         {
-          path: 'feedback/:hits/:required/:mode/:difficulty/:phase/',
+          path: 'feedback/',
           name: 'feedback-view',
           component: () => import('@/views/games/FeedBackView.vue'),
         },

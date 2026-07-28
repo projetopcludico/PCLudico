@@ -2,6 +2,17 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import gsap from 'gsap'
 
+const props = defineProps({
+  templates: {
+    type: Array,
+    required: true
+  },
+  withNumbers: {
+    type: Boolean,
+    default: true
+  }
+})
+
 const symbols = ref([])
 const elRefs = ref([])
 
@@ -14,23 +25,6 @@ const colors = [
   '#FF9E97',
   '#BFFF95',
   '#FFD393',
-]
-
-const templates = [
-  { value: 'mdi mdi-music', type: 'icon', color: '#FF9E97' },
-  { value: 'mdi mdi-music-note', type: 'icon', color: '#A0DCFF' },
-  { value: 'mdi mdi-triangle-outline', type: 'icon', color: '#D599FF' },
-  { value: 'mdi mdi-circle-outline', type: 'icon', color: '#FFD393' },
-  { value: 'mdi mdi-circle', type: 'icon', color: '#D599FF' },
-  { value: 'mdi mdi-rectangle-outline', type: 'icon', color: '#D599FF' },
-  { value: 'mdi mdi-rectangle', type: 'icon', color: '#A0DCFF' },
-  { value: 'mdi mdi-square-outline', type: 'icon', color: '#FFBC5C' },
-
-  { value: '/imgs/icons/canopo.svg', type: 'svg', color: '#A0DCFF' },
-  { value: '/imgs/icons/abutre.svg', type: 'svg', color: '#BFFF95' },
-  { value: '/imgs/icons/egipcio.svg', type: 'svg', color: '#FBF37D' },
-  { value: '/imgs/icons/esfinge.svg', type: 'svg', color: '#FFD393' },
-  { value: '/imgs/icons/pilo.svg', type: 'svg', color: '#D599FF' },
 ]
 
 function randomPosition(used) {
@@ -59,10 +53,10 @@ function createSymbols() {
   const used = []
 
   symbols.value = Array.from({ length: 50 }, () => {
-    const template = templates[Math.floor(Math.random() * templates.length)]
+    const template = props.templates[Math.floor(Math.random() * props.templates.length)]
     const position = randomPosition(used)
 
-    if (Math.random() < 0.2) {
+    if (Math.random() < 0.2 && props.withNumbers) {
       return {
         type: 'number',
         value: Math.floor(Math.random() * 10),

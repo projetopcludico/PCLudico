@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, readonly } from 'vue'
+import { ref, readonly, reactive } from 'vue'
 
 const SOUND_OBJECTS = Object.freeze([
   { id: 1, path: '/sounds/cat.mp3', name: 'som de gato' },
@@ -233,6 +233,33 @@ const GAME_FLOW = [
 
 export const useApplicationStore = defineStore('applicationStore', () => {
   const responses = ref({ sounds: 0, numbers: 0, forms: 0 })
+  const gameStatus = reactive({
+    hits: 0,
+    required: 0,
+    mode: '',
+    difficulty: '',
+    phase: ''
+  })
+
+  function setHits(hits = 0) {
+    gameStatus.hits = hits
+  }
+
+  function setRequired(required = 0) {
+    gameStatus.required = required
+  }
+
+  function setMode(mode = '') {
+    gameStatus.mode = mode
+  }
+
+  function setDifficulty(difficulty = '') {
+    gameStatus.difficulty = difficulty
+  }
+
+  function setPhase(phase = '') {
+    gameStatus.phase = phase
+  }
 
   function getResponses(mode) {
     return responses.value[mode]
@@ -305,6 +332,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
 
   return {
     responses,
+    gameStatus,
 
     soundObjects: readonly(SOUND_OBJECTS),
     soundDifficulties: readonly(SOUND_DIFFICULTIES),
@@ -314,6 +342,11 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     requiredResponses: readonly(REQUIRED_RESPONSES),
     gameStories: readonly(GAME_STORIES),
 
+    setHits,
+    setRequired,
+    setMode,
+    setDifficulty,
+    setPhase,
     getResponses,
     incrementResponses,
     resetResponses,
@@ -322,5 +355,10 @@ export const useApplicationStore = defineStore('applicationStore', () => {
 
     getNextRoute,
     repeatLevelRoute,
+  }
+}, {
+  persist: {
+    storage: sessionStorage,
+    pick: ['gameStatus']
   }
 })
