@@ -18,22 +18,19 @@ export const useAchievementStore = defineStore('achievementStore', () => {
   }
 
   const achievements = ref(loadAchievements())
-  const achievementsView = ref([])
-  const currentAchievement = ref({})
-  const totalUnlockeds = computed(() => achievementsView.value.filter(achievement => achievement.unlocked === true).length)
 
-  function getAchievements() {
-    achievementsView.value = []
-    const achievements = loadAchievements()
-    for (let theme in achievements) {
-      for (let achievement in achievements[theme]) {
-        achievementsView.value.push(achievements[theme][achievement])
+  const totalUnlockeds = computed(() => {
+    let total = 0
+    for (let mode in achievements.value) {
+      for (let difficulty in achievements.value[mode]) {
+        if (achievements.value[mode][difficulty].unlocked === true) total++
       }
     }
-  }
+    return total
+  })
 
-  function selectAchievement(achievement) {
-    currentAchievement.value = achievement
+  function isUnlocked(mode, difficulty) {
+    return achievements.value?.[mode]?.[difficulty]?.unlocked === true
   }
 
   function unlockAchievement(mode, difficulty) {
@@ -48,11 +45,8 @@ export const useAchievementStore = defineStore('achievementStore', () => {
 
   return {
     achievements,
-    achievementsView,
-    currentAchievement,
     totalUnlockeds,
-    getAchievements,
-    selectAchievement,
+    isUnlocked,
     unlockAchievement,
   }
 })

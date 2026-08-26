@@ -27,16 +27,6 @@ const router = createRouter({
           name: 'home-view',
           component: () => import('@/views/HomeView.vue'),
         },
-        {
-          path: 'achievements',
-          name: 'achievements-view',
-          component: () => import('@/views/AchievementsView.vue'),
-        },
-        {
-          path: 'unlock/:mode/:difficulty/',
-          name: 'unlock-view',
-          component: () => import('@/views/games/UnlockView.vue'),
-        },
       ],
     },
     {
@@ -70,6 +60,11 @@ const router = createRouter({
           path: 'feedback/',
           name: 'feedback-view',
           component: () => import('@/views/games/FeedBackView.vue'),
+        },
+        {
+          path: 'unlock/:mode/:difficulty/',
+          name: 'unlock-view',
+          component: () => import('@/views/games/UnlockView.vue'),
         },
       ],
     },

@@ -93,3 +93,14 @@ html {
 html::-webkit-scrollbar {
   display: none;
 }
+
+.puzzle-board {
+  overflow: visible; 
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.puzzle-piece {
+  transform-origin: center;
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 1px;
+}

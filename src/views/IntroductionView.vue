@@ -1,14 +1,16 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import gsap from 'gsap'
 import { useApplicationStore } from '@/stores/application'
+import { useCampaignProgressStore } from '@/stores/campaignProgress'
 import { useTransitionOverlay } from '@/composables/useTransitionOverlay'
 import CloudBackground from '@/components/decorators/CloudBackground.vue'
 
 const route = useRoute()
 const router = useRouter()
 const applicationStore = useApplicationStore()
+const campaignProgress = useCampaignProgressStore()
 const { fadeIn, fadeOut } = useTransitionOverlay()
 
 const pageRef = ref(null)
@@ -20,6 +22,12 @@ const buttonRef = ref(null)
 const gameType = route.params.gameType
 const story = applicationStore.gameStories[gameType]
 const difficulty = route.query.difficulty || 'easy'
+const mode = route.query.mode || 'campaign'
+
+const startPhase = computed(() => {
+  if (mode === 'phase') return 'one'
+  return campaignProgress.getNextUnlockedPhase(gameType, difficulty) || 'one'
+})
 
 let ctx
 
@@ -43,7 +51,7 @@ onUnmounted(() => {
 
 function goToGame() {
   fadeIn(0.4).then(() => {
-    router.push(`/game/${gameType}/${difficulty}/one/`)
+    router.push(`/game/${gameType}/${difficulty}/${startPhase.value}/`)
   })
 }
 </script>

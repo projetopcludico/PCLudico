@@ -15,6 +15,7 @@ const required = computed(() => Number(applicationStore.gameStatus.required))
 const mode = computed(() => applicationStore.gameStatus.mode)
 const difficulty = computed(() => applicationStore.gameStatus.difficulty)
 const phase = computed(() => applicationStore.gameStatus.phase)
+const gameMode = computed(() => applicationStore.gameStatus.gameMode)
 
 const title = computed(() => {
   if (hits.value >= required.value) {
@@ -61,6 +62,7 @@ function nextRoute() {
       difficulty: difficulty.value,
       phase: phase.value,
       success: hits.value >= required.value,
+      gameMode: gameMode.value,
     }),
   )
 }

@@ -4,6 +4,7 @@ import { useApplicationStore } from '@/stores/application'
 import { useSequenceStore } from '@/stores/sequence'
 import { useTimeStamp } from '@/stores/timeStamp'
 import { useAudioStore } from '@/stores/sounds'
+import { useCampaignProgressStore } from '@/stores/campaignProgress'
 import { usePageTransition } from '@/composables/usePageTransition'
 import { useFeedbackAnimation } from '@/composables/useFeedbackAnimation'
 import { difficultyLabel } from '@/utils/difficultyLabel'
@@ -15,6 +16,7 @@ export function useGameView(mode, { onTryAgain, onBeforeAnswer, onSelect, onMoun
   const sequenceStore = useSequenceStore()
   const timeStamp = useTimeStamp()
   const audioStore = useAudioStore()
+  const campaignProgress = useCampaignProgressStore()
 
   const pageRef = ref(null)
   const { enter } = usePageTransition(pageRef)
@@ -26,14 +28,26 @@ export function useGameView(mode, { onTryAgain, onBeforeAnswer, onSelect, onMoun
   function goToFeedBack() {
     const responses = applicationStore.getResponses(mode)
     const required = applicationStore.requiredResponses[mode]
+    const gameMode = applicationStore.gameStatus.gameMode
+    const gameDifficulty = route.params.difficulty
+    const gamePhase = route.params.phase
+
     applicationStore.setHits(responses)
     applicationStore.setRequired(required)
     applicationStore.setMode(mode)
-    applicationStore.setDifficulty(route.params.difficulty)
-    applicationStore.setPhase(route.params.phase)
-    if (route.params.phase === 'three' && responses >= required) {
+    applicationStore.setDifficulty(gameDifficulty)
+    applicationStore.setPhase(gamePhase)
+
+    const success = responses >= required
+
+    if (success && gameMode === 'campaign') {
+      campaignProgress.markPhaseCompleted(mode, gameDifficulty, gamePhase)
+    }
+
+    if (success && gamePhase === 'three' && gameMode === 'campaign') {
       router.push({
         name: 'unlock-view',
+        params: { mode, difficulty: gameDifficulty },
       })
     } else {
       router.push({

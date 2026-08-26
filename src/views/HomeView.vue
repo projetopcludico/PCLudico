@@ -4,11 +4,18 @@ import AppButton from '@/components/buttons/AppButton.vue'
 import SelectButton from '@/components/buttons/SelectButton.vue'
 import AdventureCard from '@/components/cards/AdventureCard.vue'
 import InstructionCard from '@/components/cards/InstructionCard.vue'
+import PuzzleBoard from '@/components/cards/PuzzleBoard.vue'
 import SymbolsBackground from '@/components/decorators/SymbolsBackground.vue'
 
 import { useRouter } from 'vue-router'
 import { usePageTransition } from '@/composables/usePageTransition'
+import { useApplicationStore } from '@/stores/application'
+import { useCampaignProgressStore } from '@/stores/campaignProgress'
+import { useAchievementStore } from '@/stores/achievements'
 const router = useRouter()
+const applicationStore = useApplicationStore()
+const campaignProgress = useCampaignProgressStore()
+const achievementStore = useAchievementStore()
 
 const pageRef = ref(null)
 const { exit } = usePageTransition()
@@ -33,7 +40,7 @@ const templates = [
   { value: '/imgs/icons/pilo.svg', type: 'svg', color: '#D599FF' },
 ]
 
-const gameConfig = [
+const gameConfig = computed(() => [
   {
     titleClass: 'text-purple dark:text-purple-dark',
     buttons: [
@@ -61,6 +68,7 @@ const gameConfig = [
         icon: 'mdi mdi-emoticon-happy-outline',
         color: 'red',
         selected: computed(() => gameDifficulty.value === 'easy'),
+        disabled: computed(() => gameMode.value === 'campaign' && !campaignProgress.canAccessDifficulty(gameType.value, 'easy')),
         click: () => (gameDifficulty.value = 'easy'),
       },
       {
@@ -68,6 +76,7 @@ const gameConfig = [
         icon: 'mdi mdi-emoticon-neutral-outline',
         color: 'red',
         selected: computed(() => gameDifficulty.value === 'medium'),
+        disabled: computed(() => gameMode.value === 'campaign' && !campaignProgress.canAccessDifficulty(gameType.value, 'medium')),
         click: () => (gameDifficulty.value = 'medium'),
       },
       {
@@ -75,6 +84,7 @@ const gameConfig = [
         icon: 'mdi mdi-emoticon-sad-outline',
         color: 'red',
         selected: computed(() => gameDifficulty.value === 'hard'),
+        disabled: computed(() => gameMode.value === 'campaign' && !campaignProgress.canAccessDifficulty(gameType.value, 'hard')),
         click: () => (gameDifficulty.value = 'hard'),
       },
     ],
@@ -105,7 +115,7 @@ const gameConfig = [
       },
     ],
   },
-]
+])
 
 const cards = [
   {
@@ -129,6 +139,7 @@ const cards = [
 ]
 
 async function goToGame() {
+  applicationStore.setGameMode(gameMode.value)
   await exit()
   router.push({
     name: 'introduction-view',
@@ -191,6 +202,7 @@ async function goToGame() {
                 :text="button.text"
                 :icon="button.icon"
                 :selected="button.selected.value"
+                :disabled="button.disabled?.value ?? false"
                 :color="button.color"
                 @select="button.click"
               />
@@ -212,6 +224,25 @@ async function goToGame() {
           :image="card.image"
           :description="card.description"
         />
+      </div>
+    </div>
+    <div class="relative z-10 flex flex-col items-center gap-10 pt-30 border-t-2 border-gray-200 mx-20 mt-20">
+      <SymbolsBackground :templates="templates" :with-numbers="false" />
+      <div class="relative z-10 flex flex-col items-center gap-4">
+        <h1 class="font-sour-gummy uppercase font-bold text-5xl text-gray-500 text-center">
+          monte o quebra-cabeça
+        </h1>
+        <p class="text-gray-500 dark:text-gray-400 font-semibold text-center max-w-2xl">
+          Complete os três níveis de cada aventura para revelar as nove peças do seu quebra-cabeça. Quando uma linha se completa, as peças se unem — complete tudo e o quebra-cabeça se forma.
+        </p>
+      </div>
+      <div class="relative z-10 w-full flex flex-col items-center gap-6 px-5 pb-20 overflow-visible">
+        <div class="w-full flex justify-center overflow-visible py-4">
+          <PuzzleBoard />
+        </div>
+        <p class="text-sm font-semibold text-gray-400 dark:text-gray-500">
+          {{ achievementStore.totalUnlockeds }}/9 peças desbloqueadas
+        </p>
       </div>
     </div>
   </section>

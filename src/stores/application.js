@@ -227,8 +227,8 @@ const GAME_STORIES = Object.freeze({
 
 const GAME_FLOW = [
   Object.freeze({ mode: 'forms', route: '/forms/:difficulty/:phase/' }),
-  Object.freeze({ mode: 'sounds', route: '/sounds/:difficulty/:phase/' }),
   Object.freeze({ mode: 'numbers', route: '/numbers/:difficulty/:phase/' }),
+  Object.freeze({ mode: 'sounds', route: '/sounds/:difficulty/:phase/' }),
 ]
 
 export const useApplicationStore = defineStore('applicationStore', () => {
@@ -238,7 +238,8 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     required: 0,
     mode: '',
     difficulty: '',
-    phase: ''
+    phase: '',
+    gameMode: 'campaign',
   })
 
   function setHits(hits = 0) {
@@ -261,6 +262,10 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     gameStatus.phase = phase
   }
 
+  function setGameMode(gameMode = 'campaign') {
+    gameStatus.gameMode = gameMode
+  }
+
   function getResponses(mode) {
     return responses.value[mode]
   }
@@ -281,7 +286,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     return responses.value[mode] >= REQUIRED_RESPONSES[mode]
   }
 
-  function getNextRoute({ mode, difficulty, phase, success }) {
+  function getNextRoute({ mode, difficulty, phase, success, gameMode = 'campaign' }) {
     if (!success) {
       return {
         name: `${mode}-view`,
@@ -289,10 +294,18 @@ export const useApplicationStore = defineStore('applicationStore', () => {
       }
     }
 
-    const difficultiesOrder = ['easy', 'medium', 'hard']
     const phaseOrder = ['one', 'two', 'three']
-    const currentDifficultyIndex = difficultiesOrder.indexOf(difficulty)
     const currentPhaseIndex = phaseOrder.indexOf(phase)
+
+    if (gameMode === 'phase') {
+      if (currentPhaseIndex < phaseOrder.length - 1) {
+        return {
+          name: `${mode}-view`,
+          params: { difficulty, phase: phaseOrder[currentPhaseIndex + 1] },
+        }
+      }
+      return { name: 'home-view' }
+    }
 
     if(currentPhaseIndex < phaseOrder.length - 1) {
       return {
@@ -300,6 +313,9 @@ export const useApplicationStore = defineStore('applicationStore', () => {
         params: { difficulty, phase: phaseOrder[currentPhaseIndex + 1]}
       }
     }
+
+    const difficultiesOrder = ['easy', 'medium', 'hard']
+    const currentDifficultyIndex = difficultiesOrder.indexOf(difficulty)
 
     if (currentDifficultyIndex < difficultiesOrder.length - 1) {
       return {
@@ -347,6 +363,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     setMode,
     setDifficulty,
     setPhase,
+    setGameMode,
     getResponses,
     incrementResponses,
     resetResponses,
@@ -358,7 +375,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
   }
 }, {
   persist: {
-    storage: sessionStorage,
+    storage: localStorage,
     pick: ['gameStatus']
   }
 })
