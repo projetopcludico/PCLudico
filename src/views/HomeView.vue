@@ -109,6 +109,11 @@ const gameConfig = computed(() => [
         icon: 'mdi mdi-shape-outline',
         color: 'orange',
         selected: computed(() => gameType.value === 'forms'),
+        disabled: computed(
+          () => 
+          gameMode.value === 'campaign' &&
+          !campaignProgress.canAccessGameType('forms')
+        ),
         click: () => (gameType.value = 'forms'),
       },
       {
@@ -116,6 +121,11 @@ const gameConfig = computed(() => [
         icon: 'mdi mdi-calculator-variant-outline',
         color: 'orange',
         selected: computed(() => gameType.value === 'numbers'),
+        disabled: computed(
+          () => 
+          gameMode.value === 'campaign' &&
+          !campaignProgress.canAccessGameType('numbers')
+        ),
         click: () => (gameType.value = 'numbers'),
       },
       {
@@ -123,6 +133,11 @@ const gameConfig = computed(() => [
         icon: 'mdi mdi-music-note',
         color: 'orange',
         selected: computed(() => gameType.value === 'sounds'),
+        disabled: computed(
+          () => 
+          gameMode.value === 'campaign' &&
+          !campaignProgress.canAccessGameType('sounds')
+        ),
         click: () => (gameType.value = 'sounds'),
       },
     ],
@@ -175,12 +190,12 @@ async function goToGame() {
       </div>
       <div class="w-full flex gap-20 dark:bg-slate-900 py-6">
         <div class="flex flex-col gap-5 w-2/5">
-          <h2 class="font-sour-gummy font-bold uppercase text-5xl text-gray-500">
+          <h2 class="font-sour-gummy font-bold uppercase text-5xl mb-5 text-gray-500 dark:text-white">
             configure sua aventura!
           </h2>
           <InstructionCard step="1" color="purple">
             <template #text>
-              <p class="text-gray-500 font-semibold">
+              <p class="text-gray-500 dark:text-white font-semibold">
                 Escolha o <span class="text-purple">modo</span> que você quer jogar:
                 <span class="text-purple">fase ou campanha.</span>
               </p>
@@ -188,14 +203,14 @@ async function goToGame() {
           </InstructionCard>
           <InstructionCard step="2" color="red">
             <template #text>
-              <p class="text-gray-500 font-semibold">
+              <p class="text-gray-500 dark:text-white font-semibold">
                 Selecione o nível do jogo: <span class="text-red">fácil, médio ou difícil.</span>
               </p>
             </template>
           </InstructionCard>
           <InstructionCard step="3" color="orange">
             <template #text>
-              <p class="text-gray-500 font-semibold">
+              <p class="text-gray-500 dark:text-white font-semibold">
                 Por último, escolha o tipo de jogo:
                 <span class="text-dark-orange">formas, números ou sons.</span>
               </p>
@@ -230,7 +245,7 @@ async function goToGame() {
     <div
       class="relative z-10 flex flex-col items-center gap-10 pt-30 border-t-2 border-gray-200 mx-20 mt-20"
     >
-      <h1 class="font-sour-gummy uppercase font-bold text-5xl text-gray-500">
+      <h1 class="font-sour-gummy uppercase font-bold text-5xl text-gray-500 dark:text-white">
         descubra novas histórias
       </h1>
       <div class="flex flex-col gap-10 px-5 py-20 md:py-40 lg:flex-row">
@@ -271,7 +286,7 @@ async function goToGame() {
           </div>
           <PuzzleBoard v-else/>
         </div>
-        <p class="text-sm font-semibold text-gray-400 dark:text-white">
+        <p class="text-sm font-semibold">
           {{ achievementStore.totalUnlockeds }}/9 peças desbloqueadas
         </p>
       </div>

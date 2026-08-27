@@ -9,10 +9,6 @@ const links = [
     title: 'Sobre',
     value: '/about',
   },
-  {
-    title: 'Início',
-    value: '/classroom',
-  },
 ]
 
 const socialMedias = [

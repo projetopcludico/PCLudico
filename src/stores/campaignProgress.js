@@ -43,12 +43,21 @@ export const useCampaignProgressStore = defineStore('campaignProgressStore', () 
     saveToStorage()
   }
 
+  function isGameTypeCompleted(gameType) {
+    return DIFFICULTIES.every((difficulty) => isDifficultyCompleted(gameType, difficulty))
+  }
+
   function isPhaseCompleted(gameType, difficulty, phase) {
     return progress.value?.[gameType]?.[difficulty]?.[phase] === true
   }
 
   function isDifficultyCompleted(gameType, difficulty) {
     return PHASES.every((phase) => isPhaseCompleted(gameType, difficulty, phase))
+  }
+
+  function canAccessGameType(gameType) {
+    if (gameType === 'forms') return true
+    return isGameTypeCompleted(gameType)
   }
 
   function canAccessDifficulty(gameType, difficulty) {
@@ -99,8 +108,10 @@ export const useCampaignProgressStore = defineStore('campaignProgressStore', () 
     markPhaseCompleted,
     isPhaseCompleted,
     isDifficultyCompleted,
+    isGameTypeCompleted,
     canAccessDifficulty,
     canAccessPhase,
+    canAccessGameType,
     getNextUnlockedPhase,
     getNextDifficulty,
     getNextGameType,
