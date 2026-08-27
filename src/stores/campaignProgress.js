@@ -30,7 +30,7 @@ function loadProgress() {
   return createEmptyProgress()
 }
 
-export const useCampaignProgressStore = defineStore('campaignProgress', () => {
+export const useCampaignProgressStore = defineStore('campaignProgressStore', () => {
   const progress = ref(loadProgress())
 
   function saveToStorage() {

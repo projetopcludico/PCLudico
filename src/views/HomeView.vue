@@ -68,7 +68,11 @@ const gameConfig = computed(() => [
         icon: 'mdi mdi-emoticon-happy-outline',
         color: 'red',
         selected: computed(() => gameDifficulty.value === 'easy'),
-        disabled: computed(() => gameMode.value === 'campaign' && !campaignProgress.canAccessDifficulty(gameType.value, 'easy')),
+        disabled: computed(
+          () =>
+            gameMode.value === 'campaign' &&
+            !campaignProgress.canAccessDifficulty(gameType.value, 'easy'),
+        ),
         click: () => (gameDifficulty.value = 'easy'),
       },
       {
@@ -76,7 +80,11 @@ const gameConfig = computed(() => [
         icon: 'mdi mdi-emoticon-neutral-outline',
         color: 'red',
         selected: computed(() => gameDifficulty.value === 'medium'),
-        disabled: computed(() => gameMode.value === 'campaign' && !campaignProgress.canAccessDifficulty(gameType.value, 'medium')),
+        disabled: computed(
+          () =>
+            gameMode.value === 'campaign' &&
+            !campaignProgress.canAccessDifficulty(gameType.value, 'medium'),
+        ),
         click: () => (gameDifficulty.value = 'medium'),
       },
       {
@@ -84,7 +92,11 @@ const gameConfig = computed(() => [
         icon: 'mdi mdi-emoticon-sad-outline',
         color: 'red',
         selected: computed(() => gameDifficulty.value === 'hard'),
-        disabled: computed(() => gameMode.value === 'campaign' && !campaignProgress.canAccessDifficulty(gameType.value, 'hard')),
+        disabled: computed(
+          () =>
+            gameMode.value === 'campaign' &&
+            !campaignProgress.canAccessDifficulty(gameType.value, 'hard'),
+        ),
         click: () => (gameDifficulty.value = 'hard'),
       },
     ],
@@ -152,7 +164,7 @@ async function goToGame() {
   <section ref="pageRef" class="h-full w-full">
     <div class="flex flex-col items-center gap-20 bg-linear-to-b px-5 py-2 md:px-20 md:py-10">
       <div class="w-screen relative flex justify-center">
-        <SymbolsBackground :templates="templates"/>
+        <SymbolsBackground :templates="templates" />
         <video
           controls
           src="/videos/tutorial.mp4"
@@ -184,7 +196,8 @@ async function goToGame() {
           <InstructionCard step="3" color="orange">
             <template #text>
               <p class="text-gray-500 font-semibold">
-                Por último, escolha o tipo de jogo:  <span class="text-dark-orange">formas, números ou sons.</span>
+                Por último, escolha o tipo de jogo:
+                <span class="text-dark-orange">formas, números ou sons.</span>
               </p>
             </template>
           </InstructionCard>
@@ -214,8 +227,12 @@ async function goToGame() {
         </div>
       </div>
     </div>
-    <div class="relative z-10 flex flex-col items-center gap-10 pt-30 border-t-2 border-gray-200 mx-20 mt-20">
-      <h1 class="font-sour-gummy uppercase font-bold text-5xl text-gray-500">descubra novas histórias</h1> 
+    <div
+      class="relative z-10 flex flex-col items-center gap-10 pt-30 border-t-2 border-gray-200 mx-20 mt-20"
+    >
+      <h1 class="font-sour-gummy uppercase font-bold text-5xl text-gray-500">
+        descubra novas histórias
+      </h1>
       <div class="flex flex-col gap-10 px-5 py-20 md:py-40 lg:flex-row">
         <AdventureCard
           v-for="(card, index) in cards"
@@ -226,21 +243,35 @@ async function goToGame() {
         />
       </div>
     </div>
-    <div class="relative z-10 flex flex-col items-center gap-10 pt-30 border-t-2 border-gray-200 mx-20 mt-20">
+    <div
+      class="relative z-10 flex flex-col items-center gap-10 pt-30 border-t-2 border-gray-200 mx-20 mt-20"
+    >
       <SymbolsBackground :templates="templates" :with-numbers="false" />
       <div class="relative z-10 flex flex-col items-center gap-4">
-        <h1 class="font-sour-gummy uppercase font-bold text-5xl text-gray-500 text-center">
+        <h1 class="font-sour-gummy uppercase font-bold text-5xl text-center">
           monte o quebra-cabeça
         </h1>
-        <p class="text-gray-500 dark:text-gray-400 font-semibold text-center max-w-2xl">
-          Complete os três níveis de cada aventura para revelar as nove peças do seu quebra-cabeça. Quando uma linha se completa, as peças se unem — complete tudo e o quebra-cabeça se forma.
+        <p class="font-semibold text-center max-w-2xl">
+          Complete os três níveis de cada aventura para revelar as nove peças do seu quebra-cabeça.
+          Quando uma linha se completa, as peças se unem — complete tudo e o quebra-cabeça se forma.
         </p>
       </div>
-      <div class="relative z-10 w-full flex flex-col items-center gap-6 px-5 pb-20 overflow-visible">
+      <div
+        class="relative z-10 w-full flex flex-col items-center gap-6 px-5 pb-20 overflow-visible"
+      >
         <div class="w-full flex justify-center overflow-visible py-4">
-          <PuzzleBoard />
+          <div
+            v-if="achievementStore.totalUnlockeds <= 0"
+            class="w-full flex flex-col gap-4 items-center"
+          >
+            <img class="w-150" src="/imgs/feedbacks/forms-feedback.svg" alt="" />
+            <p class="font-sour-gummy font-semibold text-2xl">
+              Jogue para achar as peças do quebra-cabeça
+            </p>
+          </div>
+          <PuzzleBoard v-else/>
         </div>
-        <p class="text-sm font-semibold text-gray-400 dark:text-gray-500">
+        <p class="text-sm font-semibold text-gray-400 dark:text-white">
           {{ achievementStore.totalUnlockeds }}/9 peças desbloqueadas
         </p>
       </div>

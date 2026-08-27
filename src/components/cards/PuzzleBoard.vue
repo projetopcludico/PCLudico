@@ -28,7 +28,8 @@ onMounted(() => {
 <template>
   <div class="w-full grid justify-center gap-4">
     
-    <svg width="400" height="600" viewBox="0 0 400 600" class="puzzle-board">
+    <svg width="400" height="600" viewBox="0 0 400 600" class="overflow-visible bg-black/5"> 
+      <!-- passar estilo para ca (tailwind), transformar background em condicional-->
       
       <defs>
         <pattern id="puzzle-image" patternUnits="userSpaceOnUse" width="400" height="600">
@@ -63,10 +64,10 @@ onMounted(() => {
 
       <path v-if="achievementStore.isUnlocked('sounds', 'hard')" class="puzzle-piece" fill="url(#puzzle-image)"
         d="M 266.6,400 L 301.6,400 A 20,20 0 0,1 361.6,400 L 400,400 L 400,600 L 266.6,600 L 266.6,535 A 20,20 0 0,1 266.6,465 Z" />
-
     </svg>
 
     <AppButton
+      v-if="achievementStore.totalUnlockeds > 0"
       text="Ver efeito novamente"
       @click="playReward"
     />

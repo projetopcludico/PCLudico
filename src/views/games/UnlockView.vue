@@ -6,12 +6,14 @@ import AppButton from '@/components/buttons/AppButton.vue'
 import SymbolsBackground from '@/components/decorators/SymbolsBackground.vue'
 import { useAchievementStore } from '@/stores/achievements'
 import { useApplicationStore } from '@/stores/application'
+import { useCampaignProgressStore } from '@/stores/campaignProgress'
 import { difficultyLabel } from '@/utils/difficultyLabel'
 import { modeLabel } from '@/utils/modeLabel'
 
 const router = useRouter()
 const achievementStore = useAchievementStore()
 const applicationStore = useApplicationStore()
+const campaignProgressStore = useCampaignProgressStore()
 
 const pageRef = ref(null)
 const titleRef = ref(null)
@@ -36,6 +38,7 @@ const achievement = ref({})
 onMounted(() => {
   if (gameMode.value === 'campaign') {
     achievement.value = achievementStore.unlockAchievement(mode.value, difficulty.value) || {}
+    campaignProgressStore.markPhaseCompleted(mode.value, difficulty.value, phase.value)
   }
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
