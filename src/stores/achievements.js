@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import achievementsData from '@/data/achievements.json'
 
-const STORAGE_KEY = 'pcludico-achievements'
+const STORAGE_KEY = import.meta.env.VITE_ACHIEVEMENTS_STORAGE_KEY
 
 export const useAchievementStore = defineStore('achievementStore', () => {
   function loadAchievements() {

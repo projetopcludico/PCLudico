@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const STORAGE_KEY = 'pcludico-campaign-progress'
+const STORAGE_KEY = import.meta.env.VITE_CAMPAIGN_STORAGE_KEY
 
 const GAME_TYPES = ['forms', 'numbers', 'sounds']
 const DIFFICULTIES = ['easy', 'medium', 'hard']
