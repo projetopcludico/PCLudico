@@ -187,7 +187,7 @@ const FORM_DIFFICULTIES = Object.freeze({
     timeLimit: {
       one: 90,
       two: 60,
-      three: 30,
+      three: 40,
     },
     params: Object.freeze({ difficulty: 'hard', numberForms: 4, size: 18, discovers: 3 }),
   }),
