@@ -14,6 +14,7 @@ export const useAudioStore = defineStore('audioStore', () => {
   const currentSequence = ref(null)
   const currentIndex = ref(0)
   const bgmVolume = ref(0.08)
+  const sequenceIsPlaying = ref(false)
 
   const playAudio = (path) => {
     if (currentSequence.value) {
@@ -61,11 +62,15 @@ export const useAudioStore = defineStore('audioStore', () => {
   const playSequence = (sequence) => {
     if (currentSequence.value) currentSequence.value = null
 
+    sequenceIsPlaying.value = true
     currentIndex.value = 0
     currentSequence.value = sequence
 
     const playNext = () => {
-      if (currentIndex.value >= currentSequence.value.length) return
+      if (currentIndex.value >= currentSequence.value.length) {
+        sequenceIsPlaying.value = false
+        return
+      }
 
       if (currentSequence.value[currentIndex.value].object.path == '') {
         currentIndex.value++
@@ -96,5 +101,6 @@ export const useAudioStore = defineStore('audioStore', () => {
     muted,
     currentIndex,
     bgmVolume,
+    sequenceIsPlaying
   }
 })

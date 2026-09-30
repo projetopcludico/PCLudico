@@ -18,10 +18,6 @@ const SOUND_DIFFICULTIES = Object.freeze({
   easy: Object.freeze({
     id: 1,
     title: 'Fácil',
-    description:
-      'Você terá 1 minuto e 30 segundos para adivinhar o som que falta na sequência, clique no som que você queira descobrir e responda até acertar todos os 5 padrões',
-    howToUse:
-      'Na sequência abaixo das opções de resposta você terá um padrão de repetições de 3 sons diferentes, você terá que descobrir o único som que está faltando e que possui um ? e é indicado pelo som semelhante à uma notificação. Selecione ele e responda com as opções que estão abaixo.',
     params: Object.freeze({
       difficulty: 'easy',
       numberSounds: 3,
@@ -37,10 +33,6 @@ const SOUND_DIFFICULTIES = Object.freeze({
   medium: Object.freeze({
     id: 2,
     title: 'Médio',
-    description:
-      'Você terá 1 minuto e 30 segundos para adivinhar os 2 sons que faltam na sequência, clique no som que você queira descobrir e responda até acertar todos os 5 padrões',
-    howToUse:
-      'Na sequência abaixo das opções de resposta você terá um padrão de repetições de 4 sons diferentes, você terá que descobrir os 2 sons que estão faltando, que possuem um ícone ? e são indicados pelo som semelhante à uma notificação. Selecione qual você quer e responda com as opções que estão abaixo.',
     params: Object.freeze({
       difficulty: 'medium',
       numberSounds: 4,
@@ -56,10 +48,6 @@ const SOUND_DIFFICULTIES = Object.freeze({
   hard: Object.freeze({
     id: 3,
     title: 'Difícil',
-    description:
-      'Você terá 2 minutos e 30 segundos para adivinhar os 3 sons que faltam na sequência, clique no som que você queira descobrir e responda até acertar todos os 5 padrões',
-    howToUse:
-      'Na sequência abaixo das opções de resposta você terá um padrão de repetições de 5 sons diferentes, você terá que descobrir os 3 sons que estão faltando, que possuem um ícone ? e são indicados pelo som semelhante à uma notificação. Selecione qual você quer e responda com as opções que estão abaixo.',
     params: Object.freeze({
       difficulty: 'hard',
       numberSounds: 5,
@@ -231,6 +219,12 @@ const GAME_FLOW = [
   Object.freeze({ mode: 'sounds', route: '/sounds/:difficulty/:phase/' }),
 ]
 
+const GAME_DESCRIPTIONS = Object.freeze({
+  forms: 'Observe atentamente a sequência de símbolos e descubra qual item está faltando. Escolha, entre as alternativas apresentadas, o símbolo que completa corretamente o padrão. Depois que a alternativa estiver selecionada, clique no lugar que você acha que ela pertence. Caso erre, não desista, tente novamente até acertar!',
+  sounds: 'Observe atentamente a sequência de números e descubra qual está faltando. Escolha, entre as alternativas apresentadas, o número que completa corretamente o padrão. Depois que a alternativa estiver selecionada, clique no lugar que você acha que ela pertence. Caso erre, não desista, tente novamente até acertar!',
+  numbers: 'Escute atentamente a sequência de sons e descubra qual está faltando. Escolha, entre as alternativas apresentadas, o som que completa corretamente o padrão. Depois que a alternativa estiver selecionada, clique no lugar que você acha que ela pertence. Caso erre, não desista, tente novamente até acertar!'
+})
+
 export const useApplicationStore = defineStore('applicationStore', () => {
   const responses = ref({ sounds: 0, numbers: 0, forms: 0 })
   const gameStatus = reactive({
@@ -241,6 +235,10 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     phase: '',
     gameMode: 'campaign',
   })
+
+  function getDescription() {
+    return GAME_DESCRIPTIONS[gameStatus.mode]
+  }
 
   function setHits(hits = 0) {
     gameStatus.hits = hits
@@ -364,6 +362,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     setDifficulty,
     setPhase,
     setGameMode,
+    getDescription,
     getResponses,
     incrementResponses,
     resetResponses,

@@ -8,6 +8,7 @@ import { useCampaignProgressStore } from '@/stores/campaignProgress'
 import { usePageTransition } from '@/composables/usePageTransition'
 import { useFeedbackAnimation } from '@/composables/useFeedbackAnimation'
 import { difficultyLabel } from '@/utils/difficultyLabel'
+import { phaseLabel } from '@/utils/phaseLabel'
 
 export function useGameView(mode, { onTryAgain, onBeforeAnswer, onSelect, onMount } = {}) {
   const route = useRoute()
@@ -24,6 +25,9 @@ export function useGameView(mode, { onTryAgain, onBeforeAnswer, onSelect, onMoun
   const { playCorrectFeedback, playWrongFeedback } = useFeedbackAnimation(sequenceRefs)
 
   const difficulty = computed(() => difficultyLabel(route.params.difficulty))
+  const phase = computed(() => phaseLabel(route.params.phase))
+
+  const description = computed(() => applicationStore.getDescription())
 
   function goToFeedBack() {
     const responses = applicationStore.getResponses(mode)
@@ -108,7 +112,9 @@ export function useGameView(mode, { onTryAgain, onBeforeAnswer, onSelect, onMoun
     pageRef,
     sequenceRefs,
     difficulty,
+    phase,
     timeStamp,
+    description,
     audioStore,
     sequenceStore,
     applicationStore,

@@ -7,7 +7,7 @@ const audioStore = useAudioStore()
 const emits = defineEmits(['openAccessibility'])
 
 const props = defineProps({
-  title: {
+  time: {
     type: String,
     required: true,
   },
@@ -15,15 +15,14 @@ const props = defineProps({
 </script>
 
 <template>
-  <section>
-    <section class="flex items-center justify-between text-4xl text-zinc-200">
+  <section class="flex items-center justify-between text-3xl dark:text-zinc-200">
       <button
         class="rounded-xl px-2 py-1 cursor-pointer transition-all duration-200 hover:bg-white/10"
       >
         <span class="mdi mdi-home" @click="router.push('/')"></span>
       </button>
-      <h1 class="bg-black/50 rounded-xl px-6 py-2">
-        {{ props.title }}
+      <h1 class="text-2xl bg-black/50 rounded-xl px-6 text-white">
+        {{ props.time }}
       </h1>
       <ul class="flex gap-5">
         <li>
@@ -44,5 +43,4 @@ const props = defineProps({
         </li>
       </ul>
     </section>
-  </section>
 </template>
