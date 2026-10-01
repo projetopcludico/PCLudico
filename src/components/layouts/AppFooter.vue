@@ -34,7 +34,7 @@ const socialMedias = [
     class="flex flex-col p-5 bg-white text-slate-900 dark:bg-slate-900 dark:text-white md:p-20 md:flex-row md:justify-between"
   >
     <div class="w-full flex flex-col gap-5 items-center md:items-start md:w-fit">
-      <LogoText text="TRAMA" />
+      <LogoText text="MOSAICO" />
       <nav class="w-full flex justify-center gap-10 md:flex-col md:gap-2">
         <RouterLink
           v-for="(link, index) in links"

@@ -28,7 +28,7 @@ onMounted(() => {
   <header
     class="flex justify-between bg-white text-slate-900 dark:bg-slate-900 dark:text-white py-5 px-10 md:px-20"
   >
-    <LogoText text="TRAMA" />
+    <LogoText text="MOSAICO" />
     <ul class="flex gap-4 items-center">
       <li class="gap-2 hidden md:flex">
         <AppButton text="A+" @click="increment" :mode="isDark ? 'purple' : 'blue'" />
@@ -42,8 +42,13 @@ onMounted(() => {
         </button>
       </li>
       <li>
-        <button class="py-1 px-2 rounded-lg transition-all duration-200 cursor-pointer hover:bg-slate-900/10 hover:dark:bg-white/10" @click="toggleTheme">
-          <span :class="['text-3xl', isDark ? 'mdi mdi-white-balance-sunny' : 'mdi mdi-weather-night']"></span>
+        <button
+          class="py-1 px-2 rounded-lg transition-all duration-200 cursor-pointer hover:bg-slate-900/10 hover:dark:bg-white/10"
+          @click="toggleTheme"
+        >
+          <span
+            :class="['text-3xl', isDark ? 'mdi mdi-white-balance-sunny' : 'mdi mdi-weather-night']"
+          ></span>
         </button>
       </li>
     </ul>
