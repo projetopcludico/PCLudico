@@ -5,29 +5,35 @@ const links = [
     title: 'Início',
     value: '/',
   },
+]
+
+const realizcao = [
   {
-    title: 'Sobre',
-    value: '/about',
+    src: '/imgs/logo-ifc.svg',
+    class: 'w-50 dark:hidden',
+    alt: 'Logo IFC - Campus Araquari',
+    link: 'https://araquari.ifc.edu.br/',
+  },
+  {
+    src: '/imgs/logo-ifc-dark.svg',
+    class: 'w-50 hidden dark:block',
+    alt: 'Logo IFC - Campus Araquari',
+    link: 'https://araquari.ifc.edu.br/',
+  },
+  {
+    src: '/imgs/logo-fabrica.svg',
+    class: 'w-25 dark:hidden',
+    alt: 'Logo Fábrica de Software',
+    link: 'https://fabricadesoftware.ifc.edu.br/',
+  },
+  {
+    src: '/imgs/logo-fabrica-dark.svg',
+    class: 'w-25 hidden dark:block',
+    alt: 'Logo Fábrica de Software',
+    link: 'https://fabricadesoftware.ifc.edu.br/',
   },
 ]
 
-const socialMedias = [
-  {
-    link: 'https://youtube.com',
-    icon: 'mdi mdi-youtube',
-    color: 'text-red',
-  },
-  {
-    link: 'https://instagram.com',
-    icon: 'mdi mdi-instagram',
-    color: 'text-orange',
-  },
-  {
-    link: 'https://facebook.com',
-    icon: 'mdi mdi-facebook',
-    color: 'text-blue',
-  },
-]
 </script>
 <template>
   <footer
@@ -46,24 +52,15 @@ const socialMedias = [
         </RouterLink>
       </nav>
     </div>
-    <div class="flex flex-col justify-between">
-      <nav class="flex justify-center gap-10 md:gap-5">
-        <a
-          v-for="(socialMedia, index) in socialMedias"
-          :key="index"
-          :href="socialMedia.link"
-          class="transition-all duration-100 hover:scale-125"
-        >
-          <span :class="['text-4xl', socialMedia.icon, socialMedia.color]"></span>
-        </a>
-      </nav>
-      <div class="flex flex-col gap-5">
-        <h2 class="font-semibold">Realização:</h2>
-        <div class="flex gap-10">
-          <img class="w-50" src="/imgs/logo-ifc.svg" alt="Logo Fábrica de Software" />
-          <img class="w-25" src="/imgs/logo-fabrica.svg" alt="Logo IFC - Capus Araquari" />
-        </div>
-      </div>
+    <div class="flex flex-col gap-5">
+      <h2 class="font-semibold">Realização:</h2>
+      <ul class="flex gap-10 items-center">
+        <li v-for="(link, index) in realizcao" :key="index">
+          <a :href="link.link">
+            <img :class="link.class" :src="link.src" :alt="link.alt">
+          </a>
+        </li>
+      </ul>
     </div>
   </footer>
 </template>
